@@ -8,9 +8,11 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json());
 
-const applicationsRoutes = require('./routes/applications');
-app.use('/applications', applicationsRoutes);
+//const applicationsRoutes = require('./routes/applications');
+//app.use('/applications', applicationsRoutes);
 
+const clientsRoutes = require('./routes/clients');
+app.use('/clients', clientsRoutes);
 
 app.use((req, res, next) => {
     res.status(200).json({
