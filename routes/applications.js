@@ -30,4 +30,30 @@ router.get('/', function (req, resp) {
 
 });
 
+// //Insert applications
+// router.post('/applications/add', function (req, res) {
+
+//     appName = req.body.appName;
+//     appDesc = req.body.appDesc;
+//     active = req.body.active;
+//     appIcon = req.files.appIcon;
+//     dateCreated = req.body.dateCreated;
+//     iconName = appIcon.name;
+//     appIcon.mv('./public/icons/' + iconName, function (err) {
+//         console.log(err);
+//     });
+
+
+//     console.log(appName)
+//     connection.query("call sp_InsertApplications('" + appName + "','" + appDesc + "','" + active + "','" + iconName + "','" + dateCreated + "')", function (err) {
+
+//         if (err)
+//             res.send(err);
+//         else
+//             res.send({ status: "succesfull" });
+//     });
+
+// });
+
+
 module.exports = router;
