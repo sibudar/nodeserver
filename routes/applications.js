@@ -1,4 +1,5 @@
 const express = require('express');
+const connection = require('../connectionDB/mysql');
 const router = express.Router();
 
 router.get('/', (req, res, next) =>{
