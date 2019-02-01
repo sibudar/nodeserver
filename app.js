@@ -3,6 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
+const path = require('path');
+
+
+app.use('/public', express.static(path.join(__dirname, 'public')))
+
 
 app.use(morgan('dev'));
 app.use(fileUpload());
@@ -23,3 +28,4 @@ app.use('/clients', clientsRoutes);
 //     })
 // })
 module.exports=app;
+
