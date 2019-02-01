@@ -49,6 +49,20 @@ router.get('/:id', (req, resp) => {
 });
 
 //Delete application
+router.delete('/:id', (req, resp) => {
+
+
+    connection.query("DELETE FROM applications WHERE appID = ?", [req.params.id], (error, rows, fields) => {
+        if (!error) {
+            
+            resp.send('Deleted');
+        } else {
+            console.log(error);
+        }
+
+    })
+
+});
 
 //Insert applications
 router.post('/add', function (req, res) {
