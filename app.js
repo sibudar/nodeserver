@@ -31,9 +31,7 @@ app.use('/clients', clientsRoutes);
 const categoryRoutes = require('./routes/category');
 app.use('/category', categoryRoutes);
 
-app.use((req, res, next) => {
-    res.status(200).json({
-        message:'Its working...'
-    })
-})
+
 module.exports=app;
+
+

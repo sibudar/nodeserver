@@ -73,7 +73,7 @@ router.post('/add', function (req, res) {
     appIcon = req.files.appIcon;
     dateCreated = req.body.dateCreated;
     iconName = appIcon.name;
-    appIcon.mv('./public/icons/' + iconName, function (err) {
+    appIcon.mv("./routes/public/icons" + iconName, function (err) {
         console.log(err);
     });
 
