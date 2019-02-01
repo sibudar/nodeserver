@@ -18,5 +18,21 @@ router.post('/add-category',(req, res) => {
     
     
     })
-    
+
+    //displaying categories
+
+
+router.get('/display-category',(req, res) => {
+   
+   connection.query("SELECT * FROM category",function (err, result, fields){
+if (err) throw err;
+console.log(result); 
+res.send(result)
+
+
+
+   })
+
+
+   }) 
     module.exports=router;
