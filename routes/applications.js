@@ -3,6 +3,8 @@ const connection = require('../connectionDB/mysql');
 const router = express.Router();
 const app = express();
 
+
+
 // router.get('/', (req, res, next) => {
 //     res.status(200).json({
 //         message: 'Get all applications'
@@ -30,6 +32,7 @@ router.get('/', function (req, resp) {
 
 });
 
+//Get single application
 router.get('/:id', (req, resp) => {
 
 
@@ -45,31 +48,35 @@ router.get('/:id', (req, resp) => {
 
 });
 
-
-// //Insert applications
-// router.post('/applications/add', function (req, res) {
-
-//     appName = req.body.appName;
-//     appDesc = req.body.appDesc;
-//     active = req.body.active;
-//     appIcon = req.files.appIcon;
-//     dateCreated = req.body.dateCreated;
-//     iconName = appIcon.name;
-//     appIcon.mv('./public/icons/' + iconName, function (err) {
-//         console.log(err);
-//     });
+//Delete application
 
 
-//     console.log(appName)
-//     connection.query("call sp_InsertApplications('" + appName + "','" + appDesc + "','" + active + "','" + iconName + "','" + dateCreated + "')", function (err) {
 
-//         if (err)
-//             res.send(err);
-//         else
-//             res.send({ status: "succesfull" });
-//     });
 
-// });
+//Insert applications
+router.post('/add', function (req, res) {
+
+    appName = req.body.appName;
+    appDesc = req.body.appDesc;
+    active = req.body.active;
+    appIcon = req.files.appIcon;
+    dateCreated = req.body.dateCreated;
+    iconName = appIcon.name;
+    appIcon.mv('./public/icons/' + iconName, function (err) {
+        console.log(err);
+    });
+
+
+    console.log(appName)
+    connection.query("call sp_InsertApplications('" + appName + "','" + appDesc + "','" + active + "','" + iconName + "','" + dateCreated + "')", function (err) {
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "succesfull" });
+    });
+
+});
 
 
 module.exports = router;

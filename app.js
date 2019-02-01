@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 app.use(morgan('dev'));
+app.use(fileUpload());
+
 
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json());
