@@ -50,9 +50,6 @@ router.get('/:id', (req, resp) => {
 
 //Delete application
 
-
-
-
 //Insert applications
 router.post('/add', function (req, res) {
 
@@ -77,6 +74,9 @@ router.post('/add', function (req, res) {
     });
 
 });
+
+
+
 
 
 module.exports = router;
