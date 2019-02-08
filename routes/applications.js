@@ -56,7 +56,7 @@ router.delete('/:id', (req, resp) => {
     connection.query("DELETE FROM applications WHERE appID = ?", [req.params.id], (error, rows, fields) => {
         if (!error) {
             
-            resp.send('Deleted');
+            resp.send('application deleted succesfully');
         } else {
             console.log(error);
         }
@@ -85,7 +85,7 @@ router.post('/add', function (req, res) {
         if (err)
             res.send(err);
         else
-            res.send({ status: "added user succesfully" });
+            res.send({ status: "application added succesfully" });
     });
 
 });
