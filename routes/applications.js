@@ -5,6 +5,7 @@ const app = express();
 
 
 
+
 // router.get('/', (req, res, next) => {
 //     res.status(200).json({
 //         message: 'Get all applications'
@@ -20,7 +21,7 @@ router.get('/nonny', (req, res, next) => {
 //Get all applications
 router.get('/', function (req, resp) {
 
-    console.log('Devon')
+    //console.log('Devon')
     connection.query("SELECT * FROM applications WHERE active =1", function (error, rows, fields) {
         if (error) {
             console.log('Error in the query');
@@ -73,7 +74,7 @@ router.post('/add', function (req, res) {
     appIcon = req.files.appIcon;
     dateCreated = req.body.dateCreated;
     iconName = appIcon.name;
-    appIcon.mv("./routes/public/icons" + iconName, function (err) {
+    appIcon.mv("./routes/public/icons/" + iconName, function (err) {
         console.log(err);
     });
 
@@ -84,7 +85,7 @@ router.post('/add', function (req, res) {
         if (err)
             res.send(err);
         else
-            res.send({ status: "succesfull" });
+            res.send({ status: "added user succesfully" });
     });
 
 });
