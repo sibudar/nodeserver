@@ -37,5 +37,45 @@ router.post('/login', function (req, res){
       
       })
 
+      //Insert clients
+      router.post('/add-clients', function (req, res) {
+        
+    var username = req.body.username;
+    var password = req.body.password;
+    var email = req.body.email;
+    var active = req.body.active;
+    
+    var fields = [[ username, password,email, active]];
+   var sql = "INSERT INTO clients (username,password, email, active)VALUES ?";
+    connection.query(sql,[fields],function(err, results) {
+      if (err) throw err
+      if(results){
+          
+          console.log("data added!")
+         res.json("data added!")
+      }else{
+          res.send("error")
+      }
+
+  })
+
+
+      })
+
+      //admin displaying all clients
+
+      router.get('/display-clients',(req, res) => {
+        connection.query("SELECT * FROM clients",function (err, result, fields){
+          if (err) throw err;
+          console.log(result); 
+          res.send(result)
+          
+          
+          
+             })
+          
+          
+             }) 
+
       module.exports=router;
       
