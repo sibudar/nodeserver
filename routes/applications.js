@@ -79,6 +79,8 @@ router.post('/add', function (req, res) {
     img3 = req.files.img3;
     img4 = req.files.img4;
     won = req.body.won;
+    categoryID = req.body.categoryID;
+
 
    // res.send({res: 'sent'})
 
@@ -107,7 +109,7 @@ router.post('/add', function (req, res) {
     });
 
    
-    connection.query("call sp_InsertApplications('" + appName + "','" + appDesc + "','" + active + "','" + iconName + "','" + dateCreated + "','" + imgName1 + "','" + imgName2+ "','" + imgName3 + "','" + imgName4 + "','" + won + "')", function (err) {
+    connection.query("call sp_InsertApplication('" + appName + "','" + appDesc + "','" + active + "','" + iconName + "','" + dateCreated + "','" + imgName1 + "','" + imgName2+ "','" + imgName3 + "','" + imgName4 + "','" + won +"','"+categoryID+"')", function (err) {
 
 
        
