@@ -31,10 +31,8 @@ router.post('/login', function (req, res){
           res.send("Wrong Loggin details")
      }
   })
-   
     //res.json(req.body)
-  
-      
+   
       })
 
       //Insert clients
@@ -59,8 +57,7 @@ router.post('/login', function (req, res){
 
   })
 
-
-      })
+ })
 
       //admin displaying all clients
 
@@ -69,13 +66,23 @@ router.post('/login', function (req, res){
           if (err) throw err;
           console.log(result); 
           res.send(result)
-          
-          
-          
+            
              })
           
-          
              }) 
+   //delete clients
+    router.post('/delete-clients', function(req, res){
+      var clientID = req.body.clientID;
+      var sql = "DELETE FROM clients WHERE clientID="+mysql.escape(clientID);
+      connection.query(sql, function(err, results){
+        if (err) throw err
+        res.send('client deleted');
+
+      })
+
+    })
+//update clients
+
 
       module.exports=router;
       
