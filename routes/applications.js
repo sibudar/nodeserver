@@ -81,10 +81,10 @@ router.get('/cat/:id', (req, resp) => {
 
 
 //Delete application
-router.delete('/:id', (req, resp) => {
+router.post('/:id', (req, resp) => {
 
 
-    connection.query("call sp_DeleteApp", [req.params.id], (error, rows, fields) => {
+    connection.query("call sp_DeleteApp('"+req.params.id+"')", (error, rows, fields) => {
         if (!error) {
 
             resp.send('application deleted succesfully');
@@ -92,6 +92,7 @@ router.delete('/:id', (req, resp) => {
             console.log(error);
         }
 
+    
     })
 
 });
