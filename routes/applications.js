@@ -19,19 +19,19 @@ router.get('/nonny', (req, res, next) => {
 });
 
 //Get all active applications
-router.get('/', function (req, resp) {
+// router.get('/', function (req, resp) {
 
-    //console.log('Devon')
-    connection.query("call sp_SelectActive", function (error, rows, fields) {
-        if (error) {
-            console.log('Error in the query');
-        } else {
-            resp.json(rows);
-        }
+//     //console.log('Devon')
+//     connection.query("call sp_SelectActive", function (error, rows, fields) {
+//         if (error) {
+//             console.log('Error in the query');
+//         } else {
+//             resp.json(rows);
+//         }
 
-    })
+//     })
 
-});
+// });
 //Get all applications
 router.get('/', function (req, resp) {
 
@@ -40,7 +40,7 @@ router.get('/', function (req, resp) {
         if (error) {
             console.log('Error in the query');
         } else {
-            resp.json(rows);
+            resp.json(rows[0]);
         }
 
     })
@@ -51,7 +51,23 @@ router.get('/', function (req, resp) {
 router.get('/:id', (req, resp) => {
 
 
-    connection.query("call sp_SingleApp", [req.params.id], (error, rows, fields) => {
+    connection.query("SELECT * FROM applications WHERE appID=?", [req.params.id], (error, rows, fields) => {
+        if (error) {
+            console.log('Error in the query');
+            resp.send(error);
+        } else {
+            resp.json(rows);
+        }
+
+    })
+
+});
+
+//Get application according to category
+router.get('/cat/:id', (req, resp) => {
+
+
+    connection.query("call sp_SelectCategoryApps", [req.params.id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);

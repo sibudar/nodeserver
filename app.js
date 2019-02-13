@@ -8,6 +8,8 @@ const cors = require('cors');
 
 app.use(cors());
 
+
+
 app.use('/icons', express.static(path.join(__dirname, 'public/icons')))
 app.use('/screenshots', express.static(path.join(__dirname, 'public/screenshots')))
 
