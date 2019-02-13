@@ -18,11 +18,25 @@ router.get('/nonny', (req, res, next) => {
     })
 });
 
+//Get all active applications
+router.get('/', function (req, resp) {
+
+    //console.log('Devon')
+    connection.query("call sp_SelectActive", function (error, rows, fields) {
+        if (error) {
+            console.log('Error in the query');
+        } else {
+            resp.json(rows);
+        }
+
+    })
+
+});
 //Get all applications
 router.get('/', function (req, resp) {
 
     //console.log('Devon')
-    connection.query("SELECT * FROM applications WHERE active =1", function (error, rows, fields) {
+    connection.query("call sp_SelectAllApplications", function (error, rows, fields) {
         if (error) {
             console.log('Error in the query');
         } else {
@@ -37,7 +51,7 @@ router.get('/', function (req, resp) {
 router.get('/:id', (req, resp) => {
 
 
-    connection.query("SELECT * FROM applications WHERE appID=?", [req.params.id], (error, rows, fields) => {
+    connection.query("call sp_SingleApp", [req.params.id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -49,11 +63,12 @@ router.get('/:id', (req, resp) => {
 
 });
 
+
 //Delete application
 router.delete('/:id', (req, resp) => {
 
 
-    connection.query("DELETE FROM applications WHERE appID = ?", [req.params.id], (error, rows, fields) => {
+    connection.query("call sp_DeleteApp", [req.params.id], (error, rows, fields) => {
         if (!error) {
 
             resp.send('application deleted succesfully');
