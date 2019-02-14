@@ -94,11 +94,16 @@ router.post('/update-clients', function(req, res){
     var email = req.body.email;
     var active = req.body.active;
     var adminID = req.body.adminID;
-  var sql = "UPDATE clients SET firstname=firstname,Lastname=lastname,organization=organization,password=password, email=email, active=active, adminID=adminID WHERE clientID="+mysql.escape(clientID);
+  //var sql = 'UPDATE clients SET firstname="+firstname+",Lastname="+Lastname+",Organization="+Organization+",password="+password+", email="+email+", active=active, adminID=adminID WHERE clientID='+mysql.escape(clientID);
+  var sql = "UPDATE clients SET firstname='"+firstname+"',Lastname='"+Lastname+"',Organization='"+Organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE clientID="+mysql.escape(clientID);
 connection.query(sql, function(err, results){
   if (err) throw err;
   res.send('client updated');
 })
+// res.json({
+//   mysql: sql
+// });
+
 })
 
 
