@@ -38,13 +38,16 @@ router.post('/login', function (req, res){
       //Insert clients
       router.post('/add-clients', function (req, res) {
         
-    var username = req.body.username;
+    var firstname = req.body.firstname;
+    var Lastname = req.body.Lastname;
+    var Organization = req.body.Organization;
     var password = req.body.password;
     var email = req.body.email;
     var active = req.body.active;
+    var adminID = req.body.adminID;
     
-    var fields = [[ username, password,email, active]];
-   var sql = "INSERT INTO clients (username,password, email, active)VALUES ?";
+    var fields = [[ firstname, Lastname, Organization, password,email, active, adminID]];
+   var sql = "INSERT INTO clients (firstname,Lastname,Organization,password, email, active, adminID)VALUES ?";
     connection.query(sql,[fields],function(err, results) {
       if (err) throw err
       if(results){
@@ -62,7 +65,7 @@ router.post('/login', function (req, res){
       //admin displaying all clients
 
       router.get('/display-clients',(req, res) => {
-        connection.query("SELECT * FROM clients",function (err, result, fields){
+        connection.query("SELECT * FROM clients WHERE active=1",function (err, result, fields){
           if (err) throw err;
           console.log(result); 
           res.send(result)
@@ -73,7 +76,7 @@ router.post('/login', function (req, res){
    //delete clients
     router.post('/delete-clients', function(req, res){
       var clientID = req.body.clientID;
-      var sql = "DELETE FROM clients WHERE clientID="+mysql.escape(clientID);
+      var sql = "UPDATE clients SET active=0 WHERE clientID="+mysql.escape(clientID);
       connection.query(sql, function(err, results){
         if (err) throw err
         res.send('client deleted');
@@ -82,6 +85,23 @@ router.post('/login', function (req, res){
 
     })
 //update clients
+router.post('/update-clients', function(req, res){
+  var clientID = req.body.clientID;
+  var firstname = req.body.firstname;
+    var Lastname = req.body.Lastname;
+    var Organization = req.body.Organization;
+    var password = req.body.password;
+    var email = req.body.email;
+    var active = req.body.active;
+    var adminID = req.body.adminID;
+  var sql = "UPDATE clients SET firstname=firstname,Lastname=lastname,organization=organization,password=password, email=email, active=active, adminID=adminID WHERE clientID="+mysql.escape(clientID);
+connection.query(sql, function(err, results){
+  if (err) throw err;
+  res.send('client updated');
+})
+})
+
+
 
 
       module.exports=router;
