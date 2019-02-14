@@ -32,11 +32,11 @@ router.get('/nonny', (req, res, next) => {
 //     })
 
 // });
-//Get all applications
+//Get all active applications
 router.get('/', function (req, resp) {
 
     //console.log('Devon')
-    connection.query("call sp_SelectAllApplications", function (error, rows, fields) {
+    connection.query("call sp_SelectActive", function (error, rows, fields) {
         if (error) {
             console.log('Error in the query');
         } else {
@@ -46,6 +46,8 @@ router.get('/', function (req, resp) {
     })
 
 });
+
+
 
 //Get single application
 router.get('/:id', (req, resp) => {
