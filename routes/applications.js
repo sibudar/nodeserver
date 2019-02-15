@@ -68,13 +68,14 @@ router.get('/:id', (req, resp) => {
 //Get application according to category
 router.get('/cat/:id', (req, resp) => {
 
+    id = (req.params.id);
 
-    connection.query("call sp_SelectCategoryApps", [req.params.id], (error, rows, fields) => {
+    connection.query("call sp_SelectCategoryApps(" + id + ")", (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
         } else {
-            resp.json(rows);
+            resp.json(rows[0]);
         }
 
     })
