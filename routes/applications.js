@@ -35,7 +35,7 @@ router.get('/nonny', (req, res, next) => {
 router.get('/', function (req, resp) {
 
     //console.log('Devon')
-    connection.query("call sp_SelectActive", function (error, rows, fields) {
+    connection.query("call sp_SelectActiveApps", function (error, rows, fields) {
         if (error) {
             console.log('Error in the query');
         } else {
