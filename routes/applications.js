@@ -5,7 +5,6 @@ const app = express();
 
 
 
-
 // router.get('/', (req, res, next) => {
 //     res.status(200).json({
 //         message: 'Get all applications'
@@ -145,7 +144,7 @@ router.post('/add', function (req, res) {
     });
 
 
-    connection.query("call sp_InsertApplications('" + appName + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','"+adminID+"')", function (err) {
+    connection.query("call sp_InsertApplications('" + appName + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','" + adminID + "')", function (err) {
 
 
 
@@ -166,9 +165,9 @@ router.post('/update-info', (req, res) => {
     developers = req.body.developers;
     appID = req.body.appID;
     categoryID = req.body.categoryID;
-  
 
-   
+
+
     connection.query("call sp_UpdateAppInfo(" + appID + ",'" + Name + "','" + developers + "','" + categoryID + "')", function (err) {
 
 
@@ -182,29 +181,18 @@ router.post('/update-info', (req, res) => {
 
 });
 
+//update  application long and short descriptions
+router.post('/update-desc', (req, res) => {
 
 
-
-//Update application icon
-router.put('/update-icon', (req, res) => {
-
-
-    
-    icon = req.files.icon;
+    longDesc = req.body.longDesc;
+    shortDesc = req.body.shortDesc;
     appID = req.body.appID;
 
 
-    iconName = icon.name;
-    
 
 
-
-    icon.mv("./public/icons/" + iconName, function (err) {
-        console.log(err);
-    });
-
-   
-    connection.query("call sp_UpdateIcon(" + appID + ",'" + icon + "','')", function (err) {
+    connection.query("call sp_UpdateDescriptions(" + appID + ",'" + longDesc + "','" + shortDesc + "')", function (err) {
 
 
 
@@ -212,7 +200,41 @@ router.put('/update-icon', (req, res) => {
         if (err)
             res.send(err);
         else
-            res.send({ status: "application updated succesfully" });
+            res.send({ status: "application descriptions updated succesfully" });
+    });
+
+});
+
+
+
+//Update application icon
+router.post('/update-icon', (req, res) => {
+
+
+
+    icon = req.files.icon;
+    appID = req.body.appID;
+
+
+    iconName = icon.name;
+
+
+
+
+    icon.mv("./public/icons/" + iconName, function (err) {
+        console.log(err);
+    });
+
+
+    connection.query("call sp_UpdateIcon(" + appID + ",'" + iconName + "')", function (err) {
+
+
+
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application icon updated succesfully" });
     });
 
 });
