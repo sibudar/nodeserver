@@ -163,15 +163,13 @@ router.post('/update-info', (req, res) => {
 
 
     Name = req.body.Name;
-    longDesc = req.body.longDesc;
-    shortDesc = req.body.shortDesc;
     developers = req.body.developers;
     appID = req.body.appID;
-
+    categoryID = req.body.categoryID;
   
 
    
-    connection.query("call sp_UpdateAppInfo(" + appID + ",'" + Name + "','" + longDesc + "','" + shortDesc + "','" + developers +  "')", function (err) {
+    connection.query("call sp_UpdateAppInfo(" + appID + ",'" + Name + "','" + developers + "','" + categoryID + "')", function (err) {
 
 
 
@@ -186,58 +184,38 @@ router.post('/update-info', (req, res) => {
 
 
 
-// //Update application
-// router.put('/update-apps', (req, res) => {
+
+//Update application icon
+router.put('/update-icon', (req, res) => {
 
 
-//     Name = req.body.Name;
-//     longDesc = req.body.longDesc;
-//     shortDesc = req.body.shortDesc;
-//     icon = req.files.icon;
-//     developers = req.body.developers;
-//     img1 = req.files.img1;
-//     img2 = req.files.img2;
-//     img3 = req.files.img3;
-//     img4 = req.files.img4;
-//     appID = req.body.appID;
+    
+    icon = req.files.icon;
+    appID = req.body.appID;
 
 
-//     iconName = icon.name;
-//     imgName1 = img1.name;
-//     imgName2 = img2.name;
-//     imgName3 = img3.name;
-//     imgName4 = img4.name;
+    iconName = icon.name;
+    
 
 
 
-//     icon.mv("./public/icons/" + iconName, function (err) {
-//         console.log(err);
-//     });
+    icon.mv("./public/icons/" + iconName, function (err) {
+        console.log(err);
+    });
 
-//     img1.mv("./public/screenshots/" + imgName1, function (err) {
-//         console.log(err);
-//     });
-//     img2.mv("./public/screenshots/" + imgName2, function (err) {
-//         console.log(err);
-//     });
-//     img3.mv("./public/screenshots/" + imgName3, function (err) {
-//         console.log(err);
-//     });
-//     img4.mv("./public/screenshots/" + imgName4, function (err) {
-//         console.log(err);
-//     });
-//     connection.query("call sp_UpdateApplications('" + Name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','','" + appID + "')", function (err) {
+   
+    connection.query("call sp_UpdateIcon(" + appID + ",'" + icon + "','')", function (err) {
 
 
 
 
-//         if (err)
-//             res.send(err);
-//         else
-//             res.send({ status: "application updated succesfully" });
-//     });
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application updated succesfully" });
+    });
 
-// });
+});
 
 
 module.exports = router;
