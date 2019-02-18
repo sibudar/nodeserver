@@ -239,5 +239,48 @@ router.post('/update-icon', (req, res) => {
 
 });
 
+//Update screenshots API
+router.post('/update-screenshots', (req, res) => {
 
+
+
+    img1 = req.files.img1;
+    img2 = req.files.img1;
+    img3 = req.files.img1;
+    img4 = req.files.img1;
+    appID = req.body.appID;
+
+    imgName1 = img1.name;
+    imgName2 = img2.name;
+    imgName3 = img3.name;
+    imgName4 = img4.name;
+
+
+
+    img1.mv("./public/screenshots/" + imgName1, function (err) {
+        console.log(err);
+    });
+    img2.mv("./public/screenshots/" + imgName2, function (err) {
+        console.log(err);
+    });
+    img3.mv("./public/screenshots/" + imgName3, function (err) {
+        console.log(err);
+    });
+    img4.mv("./public/screenshots/" + imgName4, function (err) {
+        console.log(err);
+    });
+
+
+    connection.query("call sp_UpdateScreenshots(" + appID + ",'"+imgName1 + "','" + imgName2 + "','" + imgName3 +"','"+ imgName4+"')", function (err) {
+
+
+
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application screnshots updated succesfully" });
+    });
+
+});
 module.exports = router;
