@@ -83,11 +83,11 @@ router.get('/cat/:id', (req, resp) => {
 });
 
 
-//Delete application
-router.post('/:id', (req, resp) => {
+// //Delete application
+router.delete('/:id', (req, resp) => {
 
 
-    connection.query("call sp_DeleteApp('"+req.params.id+"')", (error, rows, fields) => {
+    connection.query("call sp_DeleteApp('" + req.params.id + "')", (error, rows, fields) => {
         if (!error) {
 
             resp.send('application deleted succesfully');
@@ -95,29 +95,30 @@ router.post('/:id', (req, resp) => {
             console.log(error);
         }
 
-    
+
     })
 
 });
 
+
+
 //Insert applications
 router.post('/add', function (req, res) {
-    
-    console.log('dev');
+
+
     appName = req.body.appName;
-    appDesc = req.body.appDesc;
-    active = req.body.active;
+    longDesc = req.body.longDesc;
+    shortDesc = req.body.shortDesc;
     appIcon = req.files.appIcon;
-    dateCreated = req.body.dateCreated;
+    developers = req.body.developers;
     img1 = req.files.img1;
     img2 = req.files.img2;
     img3 = req.files.img3;
     img4 = req.files.img4;
     won = req.body.won;
     categoryID = req.body.categoryID;
+    adminID = req.body.adminID;
 
-
-   // res.send({res: 'sent'})
 
 
     iconName = appIcon.name;
@@ -143,12 +144,12 @@ router.post('/add', function (req, res) {
         console.log(err);
     });
 
-   
-    connection.query("call sp_InsertApplication('" + appName + "','" + appDesc + "','" + active + "','" + iconName + "','" + dateCreated + "','" + imgName1 + "','" + imgName2+ "','" + imgName3 + "','" + imgName4 + "','" + won +"','"+categoryID+"')", function (err) {
+
+    connection.query("call sp_InsertApplications('" + appName + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','"+adminID+"')", function (err) {
 
 
-       
-        
+
+
         if (err)
             res.send(err);
         else
@@ -157,7 +158,86 @@ router.post('/add', function (req, res) {
 
 });
 
-//Update applications
+//update application information
+router.post('/update-info', (req, res) => {
+
+
+    Name = req.body.Name;
+    longDesc = req.body.longDesc;
+    shortDesc = req.body.shortDesc;
+    developers = req.body.developers;
+    appID = req.body.appID;
+
+  
+
+   
+    connection.query("call sp_UpdateAppInfo(" + appID + ",'" + Name + "','" + longDesc + "','" + shortDesc + "','" + developers +  "')", function (err) {
+
+
+
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application updated succesfully" });
+    });
+
+});
+
+
+
+// //Update application
+// router.put('/update-apps', (req, res) => {
+
+
+//     Name = req.body.Name;
+//     longDesc = req.body.longDesc;
+//     shortDesc = req.body.shortDesc;
+//     icon = req.files.icon;
+//     developers = req.body.developers;
+//     img1 = req.files.img1;
+//     img2 = req.files.img2;
+//     img3 = req.files.img3;
+//     img4 = req.files.img4;
+//     appID = req.body.appID;
+
+
+//     iconName = icon.name;
+//     imgName1 = img1.name;
+//     imgName2 = img2.name;
+//     imgName3 = img3.name;
+//     imgName4 = img4.name;
+
+
+
+//     icon.mv("./public/icons/" + iconName, function (err) {
+//         console.log(err);
+//     });
+
+//     img1.mv("./public/screenshots/" + imgName1, function (err) {
+//         console.log(err);
+//     });
+//     img2.mv("./public/screenshots/" + imgName2, function (err) {
+//         console.log(err);
+//     });
+//     img3.mv("./public/screenshots/" + imgName3, function (err) {
+//         console.log(err);
+//     });
+//     img4.mv("./public/screenshots/" + imgName4, function (err) {
+//         console.log(err);
+//     });
+//     connection.query("call sp_UpdateApplications('" + Name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','','" + appID + "')", function (err) {
+
+
+
+
+//         if (err)
+//             res.send(err);
+//         else
+//             res.send({ status: "application updated succesfully" });
+//     });
+
+// });
 
 
 module.exports = router;
