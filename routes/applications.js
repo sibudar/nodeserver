@@ -92,10 +92,10 @@ router.delete('/:id', (req, resp) => {
 router.post('/add', function (req, res) {
 
 
-    appName = req.body.appName;
+    name = req.body.name;
     longDesc = req.body.longDesc;
     shortDesc = req.body.shortDesc;
-    appIcon = req.files.appIcon;
+    icon = req.files.icon;
     developers = req.body.developers;
     img1 = req.files.img1;
     img2 = req.files.img2;
@@ -104,17 +104,17 @@ router.post('/add', function (req, res) {
     won = req.body.won;
     categoryID = req.body.categoryID;
     adminID = req.body.adminID;
-    
+    url = req.body.url;
 
 
 
-    iconName = appIcon.name;
+    iconName = icon.name;
     imgName1 = img1.name;
     imgName2 = img2.name;
     imgName3 = img3.name;
     imgName4 = img4.name;
 
-    appIcon.mv("./public/icons/" + iconName, function (err) {
+    icon.mv("./public/icons/" + iconName, function (err) {
         console.log(err);
     });
 
@@ -132,7 +132,7 @@ router.post('/add', function (req, res) {
     });
 
 
-    connection.query("call sp_InsertApplications('" + appName + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','" + adminID + "')", function (err) {
+    connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','" + adminID + "','"+url+"')", function (err) {
 
 
 
