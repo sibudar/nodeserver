@@ -47,7 +47,7 @@ router.post('/login', function (req, res){
     var adminID = req.body.adminID;
     
     var fields = [[ firstname, lastname, organization, password,email, active, adminID]];
-   var sql = `CALL sp_addClients('${firstname}','${lastname}','${organization}','${password}','${email}','${active}','${adminID}')`;
+   var sql = "INSERT INTO clients (firstname,lastname,organization,password, email, active, adminID)VALUES ?";
     connection.query(sql,[fields],function(err, results) {
       if (err) throw err
       if(results){
