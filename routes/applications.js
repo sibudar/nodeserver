@@ -52,7 +52,7 @@ router.get('/', function (req, resp) {
 router.get('/:id', (req, resp) => {
 
 
-    connection.query("SELECT * FROM applications WHERE appID=?", [req.params.id], (error, rows, fields) => {
+    connection.query("SELECT * FROM applications WHERE id=?", [req.params.id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
