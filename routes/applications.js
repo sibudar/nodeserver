@@ -17,20 +17,7 @@ router.get('/nonny', (req, res, next) => {
     })
 });
 
-//Get all active applications
-// router.get('/', function (req, resp) {
 
-//     //console.log('Devon')
-//     connection.query("call sp_SelectActive", function (error, rows, fields) {
-//         if (error) {
-//             console.log('Error in the query');
-//         } else {
-//             resp.json(rows);
-//         }
-
-//     })
-
-// });
 //Get all active applications
 router.get('/', function (req, resp) {
 
@@ -51,13 +38,13 @@ router.get('/', function (req, resp) {
 //Get single application
 router.get('/:id', (req, resp) => {
 
-
-    connection.query("SELECT * FROM applications WHERE id=?", [req.params.id], (error, rows, fields) => {
+    id = (req.params.id);
+    connection.query("call sp_SingleApp(" + id + ")", (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
         } else {
-            resp.json(rows);
+            resp.json(rows[0]);
         }
 
     })
@@ -117,6 +104,7 @@ router.post('/add', function (req, res) {
     won = req.body.won;
     categoryID = req.body.categoryID;
     adminID = req.body.adminID;
+    
 
 
 
