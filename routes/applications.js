@@ -68,7 +68,22 @@ router.get('/cat/:id', (req, resp) => {
 
 });
 
+//Get top rated applications according to category
+router.get('/won/:id', (req, resp) => {
 
+    id = (req.params.id);
+
+    connection.query("call sp_SelectCategoryAppsWon(" + id + ")", (error, rows, fields) => {
+        if (error) {
+            console.log('Error in the query');
+            resp.send(error);
+        } else {
+            resp.json(rows[0]);
+        }
+
+    })
+
+});
 //Delete application
 router.delete('/:id', (req, resp) => {
 
@@ -292,6 +307,23 @@ router.post('/update-won', (req, res) => {
         else
             res.send({ status: "application won field  updated succesfully" });
     });
+
+});
+
+//Activate Apps
+router.post('/:id', (req, resp) => {
+
+
+    connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
+        if (!error) {
+
+            resp.send('application activated succesfully');
+        } else {
+            console.log(error);
+        }
+
+
+    })
 
 });
 module.exports = router;
