@@ -18,7 +18,7 @@ router.post('/login', function (req, res){
     var email =  req.body.email;
     var password = req.body.password;
 
-   var sql = "SELECT * FROM client WHERE email="+mysql.escape(email); 
+   var sql = "SELECT * FROM clients WHERE email="+mysql.escape(email); 
     connection.query(sql,async (err, dbvalues, field)=> {
       if (err) throw err
       if(dbvalues.length>0){
