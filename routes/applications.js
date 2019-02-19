@@ -68,7 +68,22 @@ router.get('/cat/:id', (req, resp) => {
 
 });
 
+//Get top rated applications according to category
+router.get('/won/:id', (req, resp) => {
 
+    id = (req.params.id);
+
+    connection.query("call sp_SelectCategoryAppsWon(" + id + ")", (error, rows, fields) => {
+        if (error) {
+            console.log('Error in the query');
+            resp.send(error);
+        } else {
+            resp.json(rows[0]);
+        }
+
+    })
+
+});
 //Delete application
 router.delete('/:id', (req, resp) => {
 
