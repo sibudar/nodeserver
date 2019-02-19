@@ -2,13 +2,10 @@ const express = require('express');
 const connection = require('../connectionDB/mysql');
 const router = express.Router();
 const mysql = require('mysql');
+const bcrypt = require('bcrypt');
 
 console.log("uclient uya runner")
-//router.get('/', (req, res, next) =>{
-    //res.status(200).json({
-        //message :'Get all applications'
-    //})
-  //});
+
 
   router.get('/nonny', (req, res, next) =>{
     res.status(200).json({
@@ -18,17 +15,20 @@ console.log("uclient uya runner")
 
 router.post('/login', function (req, res){
     // console.log("req")
-    var username =  req.body.username;
+    var email =  req.body.email;
     var password = req.body.password;
-   var sql = "SELECT * FROM client WHERE password="+mysql.escape(password)+" AND username="+mysql.escape(username); 
-    connection.query(sql, function(err, rows, field) {
+
+   var sql = "SELECT * FROM client WHERE email="+mysql.escape(email); 
+    connection.query(sql,async (err, dbvalues, field)=> {
       if (err) throw err
-      if(rows.length>0){
+      if(dbvalues.length>0){
           
-          console.log("You are logged in")
-          res.json(rows[0])
+          //console.log("You are logged in")
+          //res.json(rows[0])
+  var match = await bcrypt.compare(password, dbvalues[0].password); //check if password matches
+    match ? res.send("You are logged in") : res.send("username or password is wrong")
      }else{
-          res.send("Wrong Loggin details")
+          res.send("email doesn't exist")//wrong login details
      }
   })
     //res.json(req.body)
@@ -39,15 +39,15 @@ router.post('/login', function (req, res){
       router.post('/add-clients', function (req, res) {
         
     var firstname = req.body.firstname;
-    var Lastname = req.body.Lastname;
-    var Organization = req.body.Organization;
-    var password = req.body.password;
+    var lastname = req.body.lastname;
+    var organization = req.body.organization;
+    var password = bcrypt.hashSync(req.body.password,10);
     var email = req.body.email;
     var active = req.body.active;
     var adminID = req.body.adminID;
     
-    var fields = [[ firstname, Lastname, Organization, password,email, active, adminID]];
-   var sql = "INSERT INTO clients (firstname,Lastname,Organization,password, email, active, adminID)VALUES ?";
+    var fields = [[ firstname, lastname, organization, password,email, active, adminID]];
+   var sql = "INSERT INTO clients (firstname,lastname,organization,password, email, active, adminID)VALUES ?";
     connection.query(sql,[fields],function(err, results) {
       if (err) throw err
       if(results){
@@ -75,8 +75,8 @@ router.post('/login', function (req, res){
              }) 
    //delete clients
     router.post('/delete-clients', function(req, res){
-      var clientID = req.body.clientID;
-      var sql = "UPDATE clients SET active=0 WHERE clientID="+mysql.escape(clientID);
+      var id = req.body.id;
+      var sql = "UPDATE clients SET active=0 WHERE id="+mysql.escape(id);
       connection.query(sql, function(err, results){
         if (err) throw err
         res.send('client deleted');
@@ -86,16 +86,16 @@ router.post('/login', function (req, res){
     })
 //update clients
 router.post('/update-clients', function(req, res){
-  var clientID = req.body.clientID;
+  var id = req.body.id;
   var firstname = req.body.firstname;
-    var Lastname = req.body.Lastname;
-    var Organization = req.body.Organization;
-    var password = req.body.password;
+    var lastname = req.body.Lastname;
+    var organization = req.body.organization;
+    var password = bcrypt.hashSync(req.body.password,10);
     var email = req.body.email;
     var active = req.body.active;
     var adminID = req.body.adminID;
   //var sql = 'UPDATE clients SET firstname="+firstname+",Lastname="+Lastname+",Organization="+Organization+",password="+password+", email="+email+", active=active, adminID=adminID WHERE clientID='+mysql.escape(clientID);
-  var sql = "UPDATE clients SET firstname='"+firstname+"',Lastname='"+Lastname+"',Organization='"+Organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE clientID="+mysql.escape(clientID);
+  var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
 connection.query(sql, function(err, results){
   if (err) throw err;
   res.send('client updated');
