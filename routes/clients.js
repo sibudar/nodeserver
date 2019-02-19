@@ -15,7 +15,7 @@ console.log("uclient uya runner")
 
 router.post('/login', function (req, res){
     // console.log("req")
-    var username =  req.body.username;
+    var email =  req.body.email;
     var password = req.body.password;
 
    var sql = "SELECT * FROM client WHERE email="+mysql.escape(email); 
@@ -75,8 +75,8 @@ router.post('/login', function (req, res){
              }) 
    //delete clients
     router.post('/delete-clients', function(req, res){
-      var clientID = req.body.clientID;
-      var sql = "UPDATE clients SET active=0 WHERE clientID="+mysql.escape(clientID);
+      var id = req.body.id;
+      var sql = "UPDATE clients SET active=0 WHERE id="+mysql.escape(id);
       connection.query(sql, function(err, results){
         if (err) throw err
         res.send('client deleted');
@@ -86,7 +86,7 @@ router.post('/login', function (req, res){
     })
 //update clients
 router.post('/update-clients', function(req, res){
-  var clientID = req.body.clientID;
+  var id = req.body.id;
   var firstname = req.body.firstname;
     var lastname = req.body.Lastname;
     var organization = req.body.organization;
@@ -95,7 +95,7 @@ router.post('/update-clients', function(req, res){
     var active = req.body.active;
     var adminID = req.body.adminID;
   //var sql = 'UPDATE clients SET firstname="+firstname+",Lastname="+Lastname+",Organization="+Organization+",password="+password+", email="+email+", active=active, adminID=adminID WHERE clientID='+mysql.escape(clientID);
-  var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE clientID="+mysql.escape(clientID);
+  var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
 connection.query(sql, function(err, results){
   if (err) throw err;
   res.send('client updated');
