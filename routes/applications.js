@@ -82,7 +82,7 @@ router.get('/cat/:id', (req, resp) => {
 });
 
 
-// //Delete application
+//Delete application
 router.delete('/:id', (req, resp) => {
 
 
@@ -271,7 +271,7 @@ router.post('/update-screenshots', (req, res) => {
     });
 
 
-    connection.query("call sp_UpdateScreenshots(" + appID + ",'"+imgName1 + "','" + imgName2 + "','" + imgName3 +"','"+ imgName4+"')", function (err) {
+    connection.query("call sp_UpdateScreenshots(" + appID + ",'" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "')", function (err) {
 
 
 
@@ -280,6 +280,29 @@ router.post('/update-screenshots', (req, res) => {
             res.send(err);
         else
             res.send({ status: "application screnshots updated succesfully" });
+    });
+
+});
+
+//Update won field
+router.post('/update-won', (req, res) => {
+
+
+    won = req.body.won;
+    id = req.body.id;
+
+
+
+
+    connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
+
+
+
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application won field  updated succesfully" });
     });
 
 });
