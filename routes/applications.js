@@ -294,4 +294,21 @@ router.post('/update-won', (req, res) => {
     });
 
 });
+
+//Activate Apps
+router.post('/:id', (req, resp) => {
+
+
+    connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
+        if (!error) {
+
+            resp.send('application activated succesfully');
+        } else {
+            console.log(error);
+        }
+
+
+    })
+
+});
 module.exports = router;
