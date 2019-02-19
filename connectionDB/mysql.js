@@ -2,7 +2,7 @@ const mysql = require('mysql')
 var connection = mysql.createConnection({
     host: 'whm.thedigitalacademy.co.za',
     user: 'expo',
-    password:'nryyZ&R57C9W',
+    password: 'nryyZ&R57C9W',
     database: 'expo_db',
    
 });

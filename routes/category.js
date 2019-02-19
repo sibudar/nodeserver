@@ -19,6 +19,23 @@ router.post('/add-category',(req, res) => {
     
     })
 
+
+//Get applications according to category
+router.get('/categoryID', (req, resp) => {
+
+
+    connection.query("SELECT * FROM category WHERE categoryID=?", [req.params.id], (error, rows, fields) => {
+        if (error) {
+            console.log('Error in the query');
+            resp.send(error);
+        } else {
+            resp.json(rows);
+        }
+
+    })
+
+});
+
     //displaying categories
 
 
