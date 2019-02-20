@@ -65,7 +65,7 @@ router.post('/login', function (req, res){
       //admin displaying all clients
 
       router.get('/display-clients',(req, res) => {
-        connection.query("SELECT * FROM clients WHERE id=id",function (err, result, fields){
+        connection.query("SELECT * FROM clients",function (err, result, fields){
           if (err) throw err;
           console.log(result); 
           res.send(result)
@@ -73,6 +73,8 @@ router.post('/login', function (req, res){
              })
           
              }) 
+
+             
    //delete clients
     router.post('/delete-clients', function(req, res){
       var id = req.body.id;

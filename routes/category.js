@@ -6,10 +6,10 @@ const mysql = require('mysql');
 //add categories
 
 router.post('/add-category',(req, res) => {
-    var categoryName = req.body.categoryName;
-    var sql = "INSERT INTO category (categoryName) VALUES ?";
+    var name = req.body.name;
+    var sql = "INSERT INTO category (name) VALUES ?";
    
-    connection.query(sql, [[[categoryName]]],function(err, result){
+    connection.query(sql, [[[name]]],function(err, result){
         if (err) throw err;
         console.log("1 record inserted");
     res.send({res:"added"})
@@ -24,7 +24,7 @@ router.post('/add-category',(req, res) => {
 router.get('/categoryID', (req, resp) => {
 
 
-    connection.query("SELECT * FROM category WHERE categoryID=?", [req.params.id], (error, rows, fields) => {
+    connection.query("SELECT * FROM category WHERE id=?", [req.params.id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
