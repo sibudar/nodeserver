@@ -78,7 +78,7 @@ router.post('/login', function (req, res){
    //delete clients
     router.post('/delete-clients', function(req, res){
       var id = req.body.id;
-      var sql = "CALL sp_DeleteClients";
+      var sql = `CALL sp_DeleteClients(${id})`;
       connection.query(sql, function(err, results){
         if (err) throw err
         res.send('client deleted');
