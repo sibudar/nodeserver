@@ -164,14 +164,14 @@ router.post('/add', function (req, res) {
 router.post('/update-info', (req, res) => {
 
 
-    Name = req.body.Name;
+    name = req.body.name;
     developers = req.body.developers;
-    appID = req.body.appID;
+    id = req.body.id;
     categoryID = req.body.categoryID;
 
 
 
-    connection.query("call sp_UpdateAppInfo(" + appID + ",'" + Name + "','" + developers + "','" + categoryID + "')", function (err) {
+    connection.query("call sp_UpdateAppInfo(" + id + ",'" + name + "','" + developers + "','" + categoryID + "')", function (err) {
 
 
 
@@ -190,12 +190,12 @@ router.post('/update-desc', (req, res) => {
 
     longDesc = req.body.longDesc;
     shortDesc = req.body.shortDesc;
-    appID = req.body.appID;
+    id = req.body.id;
 
 
 
 
-    connection.query("call sp_UpdateDescriptions(" + appID + ",'" + longDesc + "','" + shortDesc + "')", function (err) {
+    connection.query("call sp_UpdateDescriptions(" + id + ",'" + longDesc + "','" + shortDesc + "')", function (err) {
 
 
 
@@ -216,7 +216,7 @@ router.post('/update-icon', (req, res) => {
 
 
     icon = req.files.icon;
-    appID = req.body.appID;
+    id = req.body.id;
 
 
     iconName = icon.name;
@@ -229,7 +229,7 @@ router.post('/update-icon', (req, res) => {
     });
 
 
-    connection.query("call sp_UpdateIcon(" + appID + ",'" + iconName + "')", function (err) {
+    connection.query("call sp_UpdateIcon(" + id + ",'" + iconName + "')", function (err) {
 
 
 
@@ -251,7 +251,7 @@ router.post('/update-screenshots', (req, res) => {
     img2 = req.files.img1;
     img3 = req.files.img1;
     img4 = req.files.img1;
-    appID = req.body.appID;
+    id = req.body.appID;
 
     imgName1 = img1.name;
     imgName2 = img2.name;
@@ -274,7 +274,7 @@ router.post('/update-screenshots', (req, res) => {
     });
 
 
-    connection.query("call sp_UpdateScreenshots(" + appID + ",'" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "')", function (err) {
+    connection.query("call sp_UpdateScreenshots(" + id + ",'" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "')", function (err) {
 
 
 
