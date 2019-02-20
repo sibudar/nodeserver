@@ -46,7 +46,8 @@ router.post('/login', function (req, res){
     var adminID = req.body.adminID;
     
     var fields = [[ firstname, lastname, organization, password,email, active, adminID]];
-   var sql = "INSERT INTO clients (firstname,lastname,organization,password, email, active, adminID)VALUES ?";
+   //var sql = "INSERT INTO clients (firstname,lastname,organization,password, email, active, adminID)VALUES ?";
+   var sql = `CALL sp_addClients('${firstname}','${lastname}','${organization}','${password}','${email}','${active}','${adminID}')`;
     connection.query(sql,[fields],function(err, results) {
       if (err) throw err
       if(results){
@@ -64,7 +65,7 @@ router.post('/login', function (req, res){
       //admin displaying all clients
 
       router.get('/display-clients',(req, res) => {
-        connection.query("SELECT * FROM clients",function (err, result, fields){
+        connection.query("CALL sp_displayClients" ,function (err, result, fields){
           if (err) throw err;
           console.log(result); 
           res.send(result)
@@ -77,7 +78,7 @@ router.post('/login', function (req, res){
    //delete clients
     router.post('/delete-clients', function(req, res){
       var id = req.body.id;
-      var sql = "UPDATE clients SET active=0 WHERE id="+mysql.escape(id);
+      var sql = "CALL sp_DeleteClients";
       connection.query(sql, function(err, results){
         if (err) throw err
         res.send('client deleted');
