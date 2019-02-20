@@ -4,8 +4,7 @@ const router = express.Router();
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
-console.log("uclient uya runner")
-
+//console.log("uclient uya runner")
 
   router.get('/nonny', (req, res, next) =>{
     res.status(200).json({
