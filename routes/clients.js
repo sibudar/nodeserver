@@ -104,22 +104,26 @@ console.log(id)
 
     })
 
-// activating clients
-router.post('activate-clients', function(req, res){
-var id = req.body.id;
 
-
-
-
-})
-
+    // activating clients
+router.post('/activate-clients', function(req, res){
+  var id = req.body.id;
+  var sql = `CALL sp_activateClients(${id})`;
+  connection.query(sql, function(err, results){
+    if (err) throw err
+    res.send('client activated');
+  
+  
+  })
+  
+  })
 
 
 //update clients
 router.post('/update-clients', function(req, res){
   var id = req.body.id;
   var firstname = req.body.firstname;
-    var lastname = req.body.Lastname;
+    var lastname = req.body.lastname;
     var organization = req.body.organization;
     var password = bcrypt.hashSync(req.body.password,10);
     var email = req.body.email;
