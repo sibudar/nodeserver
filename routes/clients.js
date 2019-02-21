@@ -12,6 +12,7 @@ const bcrypt = require('bcrypt');
     })
   });
 
+//clients login
 router.post('/login', function (req, res){
     // console.log("req")
     var email =  req.body.email;
@@ -61,8 +62,7 @@ router.post('/login', function (req, res){
   })
 
  })
-
-      //admin displaying all clients
+ //admin displaying all clients
 
       router.get('/display-clients',(req, res) => {
         connection.query("CALL sp_displayClients" ,function (err, result, fields){
@@ -73,6 +73,20 @@ router.post('/login', function (req, res){
              })
           
              }) 
+
+  //display single client
+  
+  router.get('/getSingle-client' , (req, res) =>{
+var id = req.body.id;
+var sql = `CALL sp_singleClient (${id})`;
+connection.query(sql, function(err, results){
+  if (err) throw err 
+  console.log(results);
+  res.send(results[0])
+
+
+})
+ })
 
              
    //delete clients
