@@ -68,7 +68,7 @@ router.post('/login', function (req, res){
         connection.query("CALL sp_displayClients" ,function (err, result, fields){
           if (err) throw err;
           console.log(result); 
-          res.send(result)
+          res.send(result[0])
             
              })
           
@@ -96,8 +96,8 @@ router.post('/update-clients', function(req, res){
     var email = req.body.email;
     var active = req.body.active;
     var adminID = req.body.adminID;
-  //var sql = 'UPDATE clients SET firstname="+firstname+",Lastname="+Lastname+",Organization="+Organization+",password="+password+", email="+email+", active=active, adminID=adminID WHERE clientID='+mysql.escape(clientID);
-  var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
+  //var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
+  var sql = `CALL sp_updateClients ('${firstname = firstname}','${lastname = lastname}','${organization}','${password}','${email}','${active}','${adminID}')`;
 connection.query(sql, function(err, results){
   if (err) throw err;
   res.send('client updated');
