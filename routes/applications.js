@@ -36,7 +36,7 @@ router.get('/', function (req, resp) {
 
 
 //Get single application
-router.get('/:id', (req, resp) => {
+router.get('getsingle/:id', (req, resp) => {
 
     id = (req.params.id);
     connection.query("call sp_SingleApp(" + id + ")", (error, rows, fields) => {
@@ -85,7 +85,7 @@ router.get('/won/:id', (req, resp) => {
 
 });
 //Delete application
-router.delete('/:id', (req, resp) => {
+router.delete('deleteapp/:id', (req, resp) => {
 
 
     connection.query("call sp_DeleteApp('" + req.params.id + "')", (error, rows, fields) => {
@@ -326,4 +326,21 @@ router.post('/:id', (req, resp) => {
     })
 
 });
+
+//Get all new applications
+router.get('/new-apps', function (req, resp) {
+
+    
+    connection.query("call sp_SelectNewApps", function (error, rows, fields) {
+        if (error) {
+            console.log('Error in the query');
+        } else {
+            resp.json(rows[0]);
+        }
+
+    })
+    
+
+});
+
 module.exports = router;
