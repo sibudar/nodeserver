@@ -125,8 +125,7 @@ router.post('/update-clients', function(req, res){
   var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var organization = req.body.organization;
-    //var password = bcrypt.hashSync(req.body.password,10);
-    var password = req.body.password;
+    var password = bcrypt.hashSync(req.body.password,10);
     var email = req.body.email;
     var active = req.body.active;
     var adminID = req.body.adminID;
