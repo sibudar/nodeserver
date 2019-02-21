@@ -36,7 +36,7 @@ router.get('/', function (req, resp) {
 
 
 //Get single application
-router.get('getsingle/:id', (req, resp) => {
+router.get('/getSingleApp/:id', (req, resp) => {
 
     id = (req.params.id);
     connection.query("call sp_SingleApp(" + id + ")", (error, rows, fields) => {

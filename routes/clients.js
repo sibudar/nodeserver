@@ -76,16 +76,19 @@ router.post('/login', function (req, res){
 
   //display single client
   
-  router.get('/getSingle-client' , (req, res) =>{
-var id = req.body.id;
-var sql = `CALL sp_singleClient (${id})`;
-connection.query(sql, function(err, results){
+  router.get('/getSingle-client/:id' , (req, res) =>{
+var id = (req.params.id);
+var sql = `CALL sp_singleClient ('${id}')`;
+ connection.query(sql, function (err, result, fields){
+
   if (err) throw err 
-  console.log(results);
-  res.send(results[0])
+  console.log(result);
+  res.send(result[0])
 
 
 })
+
+console.log(id)
  })
 
              
@@ -100,6 +103,18 @@ connection.query(sql, function(err, results){
       })
 
     })
+
+// activating clients
+router.post('activate-clients', function(req, res){
+var id = req.body.id;
+
+
+
+
+})
+
+
+
 //update clients
 router.post('/update-clients', function(req, res){
   var id = req.body.id;
