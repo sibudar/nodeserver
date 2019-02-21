@@ -97,7 +97,7 @@ router.post('/update-clients', function(req, res){
     var active = req.body.active;
     var adminID = req.body.adminID;
   //var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
-  var sql = `CALL sp_updateClients ('${firstname = firstname}','${lastname = lastname}','${organization}','${password}','${email}','${active}','${adminID}')`;
+  var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${password = password}','${email = email}','${active = active}','${adminID = adminID}')`;
 connection.query(sql, function(err, results){
   if (err) throw err;
   res.send('client updated');
