@@ -251,7 +251,7 @@ router.post('/update-screenshots', (req, res) => {
     img2 = req.files.img1;
     img3 = req.files.img1;
     img4 = req.files.img1;
-    id = req.body.appID;
+    id = req.body.id;
 
     imgName1 = img1.name;
     imgName2 = img2.name;
