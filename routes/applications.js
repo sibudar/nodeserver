@@ -85,7 +85,7 @@ router.get('/won/:id', (req, resp) => {
 
 });
 //Delete application
-router.delete('deleteapp/:id', (req, resp) => {
+router.delete('/deleteapp/:id', (req, resp) => {
 
 
     connection.query("call sp_DeleteApp('" + req.params.id + "')", (error, rows, fields) => {
