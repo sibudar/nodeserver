@@ -311,7 +311,7 @@ router.post('/update-won', (req, res) => {
 });
 
 //Activate Apps
-router.post('/:id', (req, resp) => {
+router.post('/activate-apps/:id', (req, resp) => {
 
 
     connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
@@ -343,4 +343,46 @@ router.get('/new-apps', function (req, resp) {
 
 });
 
+// router.post('/upload-images',(req, resp, next) => {
+//     let formidable = require('formidable');
+
+//     //parse a file upload
+     
+//     var form = new formidable.IncomingForm();
+//     form.uploadDir = "./public/screenshots";
+//     form.keepExtensions = true;
+//     form.multiples=true;
+
+//     form.parse(req, (err, fields, files) =>{
+//       if (err){
+//           resp.json({
+//               result: "failed",
+//               data: {},
+//               message: `Cannot upload images.Error is : ${err}`
+//           });
+//       }
+//       var arrayOfFiles = files[""];
+//     if (arrayOfFiles.length > 0)
+//     {
+//          var fileNames = [];
+//          arrayOfFiles.forEach((eachFile)=> {
+//          fileNames.push(eachFile.path.split);
+//         });
+//         resp.json({
+//             result: "ok",
+//             data: fileNames,
+//             numberOfImages: fileNames.length,
+//             message: "Upload images successfully"
+//         });
+//       }else{
+//         resp.json({
+//          result : "failed",
+//          data: {},
+//          numberOfImages: 0,
+//          message: "No images to upload!"
+
+//         });
+//       }
+//     });
+// });
 module.exports = router;

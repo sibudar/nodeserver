@@ -15,6 +15,8 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-fileupload": "^1.1.1-alpha.1",
+    "formidable": "^1.2.1",
+    "formidable-upload": "0.0.3",
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.10"
