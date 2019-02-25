@@ -50,13 +50,13 @@ router.post('/login', function (req, res){
    //var sql = "INSERT INTO clients (firstname,lastname,organization,password, email, active, adminID)VALUES ?";
    var sql = `CALL sp_addClients('${firstname}','${lastname}','${organization}','${password}','${email}','${active}','${adminID}')`;
     connection.query(sql,[fields],function(err, results) {
-      if (err) throw err
+      if (err) {
+        res.status(205).send("Eroor ");
+      }
       if(results){
           
           console.log("data added!")
          res.json("data added!")
-      }else{
-          res.send("error")
       }
 
   })
@@ -66,9 +66,14 @@ router.post('/login', function (req, res){
 
       router.get('/display-clients',(req, res) => {
         connection.query("CALL sp_displayClients" ,function (err, result, fields){
-          if (err) throw err;
-          console.log(result); 
-          res.send(result[0])
+          if (err) {
+        
+  match ? res.status(200).send("clients displayed") : res.status(403).send("can't display")
+
+        }else{
+          res.send(result[0])   
+
+        } 
             
              })
           
@@ -81,10 +86,12 @@ var id = (req.params.id);
 var sql = `CALL sp_singleClient ('${id}')`;
  connection.query(sql, function (err, result, fields){
 
-  if (err) throw err 
-  console.log(result);
-  res.send(result[0])
+  if (err) 
+  res.send(err);
+  //console.log(result);
+  else
 
+  res.send(result[0])
 
 })
 
@@ -110,7 +117,9 @@ router.post('/activate-clients', function(req, res){
   var id = req.body.id;
   var sql = `CALL sp_activateClients(${id})`;
   connection.query(sql, function(err, results){
-    if (err) throw err
+    if (err) 
+    res.send(err);
+    else
     res.send('client activated');
   
   
@@ -130,9 +139,12 @@ router.post('/update-clients', function(req, res){
     var active = req.body.active;
     var adminID = req.body.adminID;
   //var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
-  var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${password = password}','${email = email}','${active = active}','${adminID = adminID}')`;
+  //var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${password = password}','${email = email}','${active = active}','${adminID = adminID}')`;
+  //var sql = `CALL sp_updateClients ('${id = ?}','${firstname = ?}','${lastname = ?}','${organization = ?}','${password = ?}','${email = ?}','${active = ?}','${adminID = ?}')`;
 connection.query(sql, function(err, results){
-  if (err) throw err;
+  if (err)
+  res.send (err);
+  else
   res.send('client updated');
 })
 // res.json({
@@ -140,9 +152,6 @@ connection.query(sql, function(err, results){
 // });
 
 })
-
-
-
 
       module.exports=router;
       
