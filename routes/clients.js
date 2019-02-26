@@ -68,8 +68,8 @@ router.post('/login', function (req, res){
         connection.query("CALL sp_displayClients" ,function (err, result, fields){
           if (err) {
         
-  match ? res.status(200).send("clients displayed") : res.status(403).send("can't display")
-
+        //res.status(200).send("clients displayed") : res.status(403).send("can't display")
+            res.json({'status' : 'Couldnt upload to db due to '})
         }else{
           res.send(result[0])   
 
@@ -136,10 +136,9 @@ router.post('/update-clients', function(req, res){
     var organization = req.body.organization;
     var password = bcrypt.hashSync(req.body.password,10);
     var email = req.body.email;
-    var active = req.body.active;
-    var adminID = req.body.adminID;
+    
   //var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
-  //var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${password = password}','${email = email}','${active = active}','${adminID = adminID}')`;
+  var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${password = password}','${email = email}')`;
   //var sql = `CALL sp_updateClients ('${id = ?}','${firstname = ?}','${lastname = ?}','${organization = ?}','${password = ?}','${email = ?}','${active = ?}','${adminID = ?}')`;
 connection.query(sql, function(err, results){
   if (err)
