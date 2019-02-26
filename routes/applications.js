@@ -183,163 +183,170 @@ router.post('/update-icon', (req, res) => {
 
 });
 
-// //Update screenshots API
-// router.post('/update-screenshots', (req, res) => {
 
 
-
-//     imagenames = req.files.imagenames;
-//     id = req.body.id;
-
+//Update won field
+router.post('/update-won', (req, res) => {
 
 
-//     let c = req.files;
-//     let x = Object.keys(c);
+    won = req.body.won;
+    id = req.body.id;
 
 
 
 
-//     var imagenames = "[";
-
-//     console.log(c.image);
-
-
-
-//     c.image.forEach(element => {
-
-
-//         element.mv("./public/test/" + element.name, function (err) {
-
-//         });
-//         imagenames += element.name + ",";
-
-
-
-//         connection.query("call sp_UpdateScreenshots(" + id + ",'" + imagenames + "')", function (err) {
+    connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
 
 
 
 
-//             if (err)
-//                 res.send(err);
-//             else
-//                 res.send({ status: "application screenshots updated succesfully" });
-//         });
-
-//     });
-
-    //Update won field
-    router.post('/update-won', (req, res) => {
-
-
-        won = req.body.won;
-        id = req.body.id;
-
-
-
-
-        connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
-
-
-
-
-            if (err)
-                res.send(err);
-            else
-                res.send({ status: "application won field  updated succesfully" });
-        });
-
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application won field  updated succesfully" });
     });
 
-    //Activate Apps
-    router.post('/activate-apps/:id', (req, resp) => {
+});
+
+//Activate Apps
+router.post('/activate-apps/:id', (req, resp) => {
 
 
-        connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
-            if (!error) {
+    connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
+        if (!error) {
 
-                resp.send('application activated succesfully');
-            } else {
-                console.log(error);
-            }
-
-
-        })
-
-    });
-
-    //Get all new applications
-    router.get('/new-apps', function (req, resp) {
+            resp.send('application activated succesfully');
+        } else {
+            console.log(error);
+        }
 
 
-        connection.query("call sp_SelectNewApps", function (error, rows, fields) {
-            if (error) {
-                console.log('Error in the query');
-            } else {
-                resp.json(rows[0]);
-            }
+    })
 
-        })
+});
+
+//Get all new applications
+router.get('/new-apps', function (req, resp) {
 
 
-    });
+    connection.query("call sp_SelectNewApps", function (error, rows, fields) {
+        if (error) {
+            console.log('Error in the query');
+        } else {
+            resp.json(rows[0]);
+        }
 
-    //Insert applications
-    router.post('/test-pics', (req, res) => {
-
-
-        name = req.body.name;
-        longDesc = req.body.longDesc;
-        shortDesc = req.body.shortDesc;
-        icon = req.files.icon;
-        developers = req.body.developers;
-        won = req.body.won;
-        categoryID = req.body.categoryID;
-        adminID = req.body.adminID;
-        url = req.body.url;
-        let c = req.files;
-        let x = Object.keys(c);
+    })
 
 
-        iconName = icon.name;
+});
 
-        var imagenames = "[";
-
-        console.log(c.image);
-
+//Insert applications
+router.post('/test-pics', (req, res) => {
 
 
+    name = req.body.name;
+    longDesc = req.body.longDesc;
+    shortDesc = req.body.shortDesc;
+    icon = req.files.icon;
+    developers = req.body.developers;
+    won = req.body.won;
+    categoryID = req.body.categoryID;
+    adminID = req.body.adminID;
+    url = req.body.url;
+    let c = req.files;
+    let x = Object.keys(c);
 
+
+    iconName = icon.name;
+
+    var imagenames = "[";
+
+    console.log();
+
+
+    if (c.image.length <= 10 && c.image.length >= 1 )
+    {
         c.image.forEach(element => {
 
 
-            element.mv("./public/test/" + element.name, function (err) {
-
-            });
-            imagenames += element.name + ",";
-
-            icon.mv("./public/icons/" + iconName, function (err) {
-                console.log(err);
-            });
+        element.mv("./public/test/" + element.name, function (err) {
 
         });
+        imagenames += element.name + ",";
 
-        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
-
-
-
-
-        connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imagenames + "','" + won + "','" + categoryID + "','" + adminID + "','" + url + "')", function (err) {
-
-
-
-
-            if (err)
-                res.send(err);
-            else
-                res.send({ status: "application uploaded succesfully" });
+        icon.mv("./public/icons/" + iconName, function (err) {
+            console.log(err);
         });
 
     });
 
-    module.exports = router;
+    imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+
+
+       connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imagenames + "','" + won + "','" + categoryID + "','" + adminID + "','" + url + "')", function (err) {
+    });
+        res.json({res : "sharp"});
+        
+    }else{
+    
+    res.json({res : "Cannot upload more than 10 images"});
+    }
+
+
+    
+
+   
+
+ 
+
+});
+
+
+//Update screenshots API
+router.post('/update-screenshots', (req, res) => {
+
+
+
+    imagenames = req.files.imagenames;
+    id = req.body.id;
+
+
+
+    let c = req.files;
+    let x = Object.keys(c);
+
+
+
+
+    var imagenames = "[";
+
+    console.log(c.image);
+
+
+
+    c.image.forEach(element => {
+
+
+        element.mv("./public/test/" + element.name, function (err) {
+
+        });
+        imagenames += element.name + ",";
+
+    });
+
+    connection.query("call sp_UpdateScreenshots(" + id + ",'" + imagenames + "')", function (err) {
+
+
+
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application screenshots updated succesfully" });
+    });
+
+});
+
+
+module.exports = router;
