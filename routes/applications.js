@@ -101,65 +101,6 @@ router.delete('/deleteapp/:id', (req, resp) => {
 
 });
 
-
-
-//Insert applications
-router.post('/add', function (req, res) {
-
-
-    name = req.body.name;
-    longDesc = req.body.longDesc;
-    shortDesc = req.body.shortDesc;
-    icon = req.files.icon;
-    developers = req.body.developers;
-    img1 = req.files.img1;
-    img2 = req.files.img2;
-    img3 = req.files.img3;
-    img4 = req.files.img4;
-    won = req.body.won;
-    categoryID = req.body.categoryID;
-    adminID = req.body.adminID;
-    url = req.body.url;
-
-
-
-    iconName = icon.name;
-    imgName1 = img1.name;
-    imgName2 = img2.name;
-    imgName3 = img3.name;
-    imgName4 = img4.name;
-
-    icon.mv("./public/icons/" + iconName, function (err) {
-        console.log(err);
-    });
-
-    img1.mv("./public/screenshots/" + imgName1, function (err) {
-        console.log(err);
-    });
-    img2.mv("./public/screenshots/" + imgName2, function (err) {
-        console.log(err);
-    });
-    img3.mv("./public/screenshots/" + imgName3, function (err) {
-        console.log(err);
-    });
-    img4.mv("./public/screenshots/" + imgName4, function (err) {
-        console.log(err);
-    });
-
-
-    connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','" + adminID + "','"+url+"')", function (err) {
-
-
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application added succesfully" });
-    });
-
-});
-
 //update application information
 router.post('/update-info', (req, res) => {
 
@@ -242,147 +183,163 @@ router.post('/update-icon', (req, res) => {
 
 });
 
-//Update screenshots API
-router.post('/update-screenshots', (req, res) => {
+// //Update screenshots API
+// router.post('/update-screenshots', (req, res) => {
 
 
 
-    img1 = req.files.img1;
-    img2 = req.files.img1;
-    img3 = req.files.img1;
-    img4 = req.files.img1;
-    id = req.body.id;
-
-    imgName1 = img1.name;
-    imgName2 = img2.name;
-    imgName3 = img3.name;
-    imgName4 = img4.name;
+//     imagenames = req.files.imagenames;
+//     id = req.body.id;
 
 
 
-    img1.mv("./public/screenshots/" + imgName1, function (err) {
-        console.log(err);
-    });
-    img2.mv("./public/screenshots/" + imgName2, function (err) {
-        console.log(err);
-    });
-    img3.mv("./public/screenshots/" + imgName3, function (err) {
-        console.log(err);
-    });
-    img4.mv("./public/screenshots/" + imgName4, function (err) {
-        console.log(err);
-    });
-
-
-    connection.query("call sp_UpdateScreenshots(" + id + ",'" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "')", function (err) {
+//     let c = req.files;
+//     let x = Object.keys(c);
 
 
 
 
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application screnshots updated succesfully" });
-    });
+//     var imagenames = "[";
 
-});
-
-//Update won field
-router.post('/update-won', (req, res) => {
-
-
-    won = req.body.won;
-    id = req.body.id;
+//     console.log(c.image);
 
 
 
-
-    connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
-
+//     c.image.forEach(element => {
 
 
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application won field  updated succesfully" });
-    });
-
-});
-
-//Activate Apps
-router.post('/activate-apps/:id', (req, resp) => {
-
-
-    connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
-        if (!error) {
-
-            resp.send('application activated succesfully');
-        } else {
-            console.log(error);
-        }
-
-
-    })
-
-});
-
-//Get all new applications
-router.get('/new-apps', function (req, resp) {
-
-    
-    connection.query("call sp_SelectNewApps", function (error, rows, fields) {
-        if (error) {
-            console.log('Error in the query');
-        } else {
-            resp.json(rows[0]);
-        }
-
-    })
-    
-
-});
-
-// router.post('/upload-images',(req, resp, next) => {
-//     let formidable = require('formidable');
-
-//     //parse a file upload
-     
-//     var form = new formidable.IncomingForm();
-//     form.uploadDir = "./public/screenshots";
-//     form.keepExtensions = true;
-//     form.multiples=true;
-
-//     form.parse(req, (err, fields, files) =>{
-//       if (err){
-//           resp.json({
-//               result: "failed",
-//               data: {},
-//               message: `Cannot upload images.Error is : ${err}`
-//           });
-//       }
-//       var arrayOfFiles = files[""];
-//     if (arrayOfFiles.length > 0)
-//     {
-//          var fileNames = [];
-//          arrayOfFiles.forEach((eachFile)=> {
-//          fileNames.push(eachFile.path.split);
-//         });
-//         resp.json({
-//             result: "ok",
-//             data: fileNames,
-//             numberOfImages: fileNames.length,
-//             message: "Upload images successfully"
-//         });
-//       }else{
-//         resp.json({
-//          result : "failed",
-//          data: {},
-//          numberOfImages: 0,
-//          message: "No images to upload!"
+//         element.mv("./public/test/" + element.name, function (err) {
 
 //         });
-//       }
+//         imagenames += element.name + ",";
+
+
+
+//         connection.query("call sp_UpdateScreenshots(" + id + ",'" + imagenames + "')", function (err) {
+
+
+
+
+//             if (err)
+//                 res.send(err);
+//             else
+//                 res.send({ status: "application screenshots updated succesfully" });
+//         });
+
 //     });
-// });
-module.exports = router;
+
+    //Update won field
+    router.post('/update-won', (req, res) => {
+
+
+        won = req.body.won;
+        id = req.body.id;
+
+
+
+
+        connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
+
+
+
+
+            if (err)
+                res.send(err);
+            else
+                res.send({ status: "application won field  updated succesfully" });
+        });
+
+    });
+
+    //Activate Apps
+    router.post('/activate-apps/:id', (req, resp) => {
+
+
+        connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
+            if (!error) {
+
+                resp.send('application activated succesfully');
+            } else {
+                console.log(error);
+            }
+
+
+        })
+
+    });
+
+    //Get all new applications
+    router.get('/new-apps', function (req, resp) {
+
+
+        connection.query("call sp_SelectNewApps", function (error, rows, fields) {
+            if (error) {
+                console.log('Error in the query');
+            } else {
+                resp.json(rows[0]);
+            }
+
+        })
+
+
+    });
+
+    //Insert applications
+    router.post('/test-pics', (req, res) => {
+
+
+        name = req.body.name;
+        longDesc = req.body.longDesc;
+        shortDesc = req.body.shortDesc;
+        icon = req.files.icon;
+        developers = req.body.developers;
+        won = req.body.won;
+        categoryID = req.body.categoryID;
+        adminID = req.body.adminID;
+        url = req.body.url;
+        let c = req.files;
+        let x = Object.keys(c);
+
+
+        iconName = icon.name;
+
+        var imagenames = "[";
+
+        console.log(c.image);
+
+
+
+
+        c.image.forEach(element => {
+
+
+            element.mv("./public/test/" + element.name, function (err) {
+
+            });
+            imagenames += element.name + ",";
+
+            icon.mv("./public/icons/" + iconName, function (err) {
+                console.log(err);
+            });
+
+        });
+
+        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+
+
+
+
+        connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imagenames + "','" + won + "','" + categoryID + "','" + adminID + "','" + url + "')", function (err) {
+
+
+
+
+            if (err)
+                res.send(err);
+            else
+                res.send({ status: "application uploaded succesfully" });
+        });
+
+    });
+
+    module.exports = router;
