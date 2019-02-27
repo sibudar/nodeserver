@@ -1,8 +1,9 @@
 const express = require('express');
-const connection = require('../connectionDB/mysql');
+const ClientController = require('../controller/client-controller');
 const router = express.Router();
-const mysql = require('mysql');
-const bcrypt = require('bcrypt');
+
+
+const ClientCtr = new ClientController();
 
 //console.log("uclient uya runner")
 
@@ -13,27 +14,16 @@ const bcrypt = require('bcrypt');
   });
 
 //clients login
-router.post('/login', function (req, res){
+router.post('/login', async function (req, res){
     // console.log("req")
     var email =  req.body.email;
     var password = req.body.password;
 
-   var sql = "SELECT * FROM clients WHERE email="+mysql.escape(email); 
-    connection.query(sql,async (err, dbvalues, field)=> {
-      if (err) throw err
-      if(dbvalues.length>0){
-          
-          //console.log("You are logged in")
-          //res.json(rows[0])
-  var match = await bcrypt.compare(password, dbvalues[0].password); //check if password matches
-    match ? res.send("You are logged in") : res.send("username or password is wrong")
-     }else{
-          res.send("email doesn't exist")//wrong login details
-     }
-  })
-    //res.json(req.body)
+    var result = await ClientCtr.Login(email,password);
+
+    res.send(result);
    
-      })
+})
 
       //Insert clients
       router.post('/add-clients', function (req, res) {
