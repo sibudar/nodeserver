@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 
         return result;
     }
+
+    
     async function ActivateClient(id){
         var result = await ClientModels.ActivateClient(id)
 

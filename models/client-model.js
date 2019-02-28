@@ -35,7 +35,7 @@ const bcrypt = require('bcrypt');
     }
 
     //Activate client
-    async function ActivateClient(){
+    async function ActivateClient(id){
 
         try{
         let sql = {
@@ -48,6 +48,7 @@ const bcrypt = require('bcrypt');
 
           return sqlResult;
         }catch(err){
+            return err;
             
    
           }  
