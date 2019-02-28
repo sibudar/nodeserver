@@ -3,12 +3,8 @@ const mysql = require('mysql');
 const connection = require('../connectionDB/mysql');
 const bcrypt = require('bcrypt');
 
-class ClientModel{
 
-
-
-
-    async Login(email,password){
+    async  function Login(email,password){
 
         try{
 
@@ -38,7 +34,6 @@ class ClientModel{
 
     }
 
-}
 
 
 
@@ -47,6 +42,7 @@ class ClientModel{
 
 
 
-
-module.exports = ClientModel;
+module.exports = {
+    Login // add more functions to export here
+};
 
