@@ -39,7 +39,7 @@ router.get('/', function (req, resp) {
 router.get('/getSingleApp/:id', (req, resp) => {
 
     id = (req.params.id);
-    connection.query("call sp_SingleApp(" + id + ")", (error, rows, fields) => {
+    connection.query("call sp_SingleApp(?)", [id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -56,7 +56,7 @@ router.get('/cat/:id', (req, resp) => {
 
     id = (req.params.id);
 
-    connection.query("call sp_SelectCategoryApps(" + id + ")", (error, rows, fields) => {
+    connection.query("call sp_SelectCategoryApps(?)", [id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -73,7 +73,7 @@ router.get('/won/:id', (req, resp) => {
 
     id = (req.params.id);
 
-    connection.query("call sp_SelectCategoryAppsWon(" + id + ")", (error, rows, fields) => {
+    connection.query("call sp_SelectCategoryAppsWon(?)", [id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -88,7 +88,9 @@ router.get('/won/:id', (req, resp) => {
 router.delete('/deleteapp/:id', (req, resp) => {
 
 
-    connection.query("call sp_DeleteApp('" + req.params.id + "')", (error, rows, fields) => {
+    id = (req.params.id);
+
+    connection.query("call sp_DeleteApp(?)", [id], (error, rows, fields) => {
         if (!error) {
 
             resp.send('application deleted succesfully');
@@ -105,14 +107,14 @@ router.delete('/deleteapp/:id', (req, resp) => {
 router.post('/update-info', (req, res) => {
 
 
+    id = req.body.id;
     name = req.body.name;
     developers = req.body.developers;
-    id = req.body.id;
     categoryID = req.body.categoryID;
 
 
 
-    connection.query("call sp_UpdateAppInfo(" + id + ",'" + name + "','" + developers + "','" + categoryID + "')", function (err) {
+    connection.query("call sp_UpdateAppInfo(?,?,?,?)", [id, name, developers, categoryID], function (err) {
 
 
 
@@ -128,15 +130,15 @@ router.post('/update-info', (req, res) => {
 //update  application long and short descriptions
 router.post('/update-desc', (req, res) => {
 
-
+    id = req.body.id;
     longDesc = req.body.longDesc;
     shortDesc = req.body.shortDesc;
-    id = req.body.id;
 
 
 
 
-    connection.query("call sp_UpdateDescriptions(" + id + ",'" + longDesc + "','" + shortDesc + "')", function (err) {
+
+    connection.query("call sp_UpdateDescriptions(?,?,?)", [id, longDesc, shortDesc], function (err) {
 
 
 
@@ -155,9 +157,9 @@ router.post('/update-desc', (req, res) => {
 router.post('/update-icon', (req, res) => {
 
 
-
-    icon = req.files.icon;
     id = req.body.id;
+    icon = req.files.icon;
+
 
 
     iconName = icon.name;
@@ -188,14 +190,10 @@ router.post('/update-icon', (req, res) => {
 //Update won field
 router.post('/update-won', (req, res) => {
 
-
-    won = req.body.won;
     id = req.body.id;
+    won = req.body.won;
 
-
-
-
-    connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
+    connection.query("call sp_UpdateWon(?,?)", [id, won], function (err) {
 
 
 
@@ -211,8 +209,8 @@ router.post('/update-won', (req, res) => {
 //Activate Apps
 router.post('/activate-apps/:id', (req, resp) => {
 
-
-    connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
+    id = (req.params.id);
+    connection.query("call sp_ActivateApps(?)", [id], (error, rows, fields) => {
         if (!error) {
 
             resp.send('application activated succesfully');
@@ -242,7 +240,7 @@ router.get('/new-apps', function (req, resp) {
 });
 
 //Insert applications
-router.post('/test-pics', (req, res) => {
+router.post('/insert-application', (req, res) => {
 
 
     name = req.body.name;
@@ -265,88 +263,44 @@ router.post('/test-pics', (req, res) => {
     console.log();
 
 
-    if (c.image.length <= 10 && c.image.length >= 1 )
-    {
+    if (c.image.length <= 10 && c.image.length >= 1) {
         c.image.forEach(element => {
 
 
-        element.mv("./public/test/" + element.name, function (err) {
+            element.mv("./public/test/" + element.name, function (err) {
+
+            });
+            imagenames += element.name + ",";
+
+            icon.mv("./public/icons/" + iconName, function (err) {
+                console.log(err);
+            });
 
         });
-        imagenames += element.name + ",";
 
-        icon.mv("./public/icons/" + iconName, function (err) {
-            console.log(err);
+        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+
+
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
         });
+        res.json({ res: "Application uploaded successfully" });
 
-    });
+    } else {
 
-    imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
-
-
-       connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imagenames + "','" + won + "','" + categoryID + "','" + adminID + "','" + url + "')", function (err) {
-    });
-        res.json({res : "sharp"});
-        
-    }else{
-    
-    res.json({res : "Cannot upload more than 10 images"});
+        res.json({ res: "Cannot upload more than 10 images" });
     }
 
 
-    
 
-   
 
- 
+
+
+
 
 });
 
 
-//Update screenshots API
-router.post('/update-screenshots', (req, res) => {
 
-
-
-    imagenames = req.files.imagenames;
-    id = req.body.id;
-
-
-
-    let c = req.files;
-    let x = Object.keys(c);
-
-
-
-
-    var imagenames = "[";
-
-    console.log(c.image);
-
-
-
-    c.image.forEach(element => {
-
-
-        element.mv("./public/test/" + element.name, function (err) {
-
-        });
-        imagenames += element.name + ",";
-
-    });
-
-    connection.query("call sp_UpdateScreenshots(" + id + ",'" + imagenames + "')", function (err) {
-
-
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application screenshots updated succesfully" });
-    });
-
-});
 
 
 module.exports = router;
