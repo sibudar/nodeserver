@@ -12,7 +12,7 @@ const router = express.Router();
   });
 
 //clients login
-router.post('/login', async function (req, res){
+router.post('/login', async function(req, res){
     // console.log("req")
     var email =  req.body.email;
     var password = req.body.password;
@@ -24,7 +24,7 @@ router.post('/login', async function (req, res){
 })
 
       //Insert clients
-      router.post('/add-clients', function (req, res) {
+      router.post('/add-clients', function(req, res) {
         
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
@@ -53,27 +53,25 @@ router.post('/login', async function (req, res){
 
  
  //admin displaying all clients
-
-      router.get('/display-clients',async function(req, res)  {
-        var result = await ClientCtr.displayClient();
-        res.send(result);
+router.get('/display-clients',async function(req, res)  {
+    var result = await ClientCtr.displayClient();
+    res.send(result);
         
-             }) 
+}) 
 
 
-  //display single client
-  
-  router.get('/getSingle-client/:id',async function  (req, res){
+//display single client  
+router.get('/getSingle-client/:id',async function(req, res){
  
-var id = (req.params.id);
-//var sql = `CALL sp_singleClient ('${id}')`;
-var result = await ClientCtr.singleClient(id);  
-res.send(result);
+      var id = (req.params.id);
+      var result = await ClientCtr.singleClient(id);
 
-  })
+    res.send(result);
+
+})
           
-   //delete clients
-    router.post('/delete-clients', function(req, res){
+//delete clients
+router.post('/delete-clients', function(req, res){
       var id = req.body.id;
       let sql = {
         sql: "CALL sp_DeleteClients(?)",
@@ -96,9 +94,9 @@ res.send(result);
 
     // activating clients
 router.post('/activate-clients', async function(req, res){
-  var id = req.body.id;
+      var id = req.body.id;
 
-  var result = await ClientCtr.ActivateClient(id);
+      var result = await ClientCtr.ActivateClient(id);
 
     res.send(result);
   
@@ -130,5 +128,10 @@ connection.query("CALL sp_updateClients(?,?,?,?,?)",[id,firstname, lastname, org
 
 })
 
-      module.exports=router;
+
+
+
+
+
+module.exports=router;
       

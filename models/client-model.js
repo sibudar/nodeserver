@@ -11,8 +11,7 @@ async  function Login(email,password){
 
             var sqlResult = await connection.query(sql);
 
-                //if (err) return err
-                //console.log(sqlResult.password);
+                //check if result are not empty
                 if(sqlResult.length>0){
                         
                 
@@ -33,6 +32,9 @@ async  function Login(email,password){
 
     }
 
+
+
+
     //Activate client
     async function ActivateClient(id){
 
@@ -51,46 +53,43 @@ async  function Login(email,password){
             
           }  
     }
+
+
+
+
+
+
      //admin displaying all clients
     async function displayClient(){
 
-try{
-    let sql = {
-     sql:"CALL sp_displayClients",
-    }
-        const sqlResult = await connection.query(sql);
-        if (err) {
-       //res.status(200).send("clients displayed") : res.status(403).send("can't display")
-          res.json({'status' : 'Couldnt upload to db due to '});
-      }else{
-        return(result)   
-      } 
+        try{
+            let sql = {sql:"CALL sp_displayClients"}
+            const sqlResult = await connection.query(sql);
 
-    }catch(err){
-        return err;
-     }
+            return sqlResult 
+
+        }catch(err){
+            return err;
+        }
 
     }
+
+
+
+
   //display single client
     async  function singleClient(id){
         try{
-            connection.query("CALL sp_singleClient (?)", [id], function (err, result, fields){
-                const sqlResult = await connection.query(sql);
 
-                if (err) 
-                res.send(err);
-                //console.log(result);
-            else
+            const sql = {sql: "CALL sp_activateClients(?)",values: [id]}
+            const sqlResult = await connection.query(sql);
 
-    
-                return(result[0])
-              })
-            }catch(err){
+            return sqlResult;
 
-            
-        return err;
-            }
-             }
+        }catch(err){
+            return err;
+        }
+    }
             
 
         
@@ -101,6 +100,8 @@ try{
 // add more functions to export here,
 module.exports = {
     Login, 
-    ActivateClient, displayClient, singleClient
+    ActivateClient,
+    displayClient,
+    singleClient
 };
     

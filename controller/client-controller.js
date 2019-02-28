@@ -15,21 +15,33 @@ const bcrypt = require('bcrypt');
 
         return result;
 
-    }   
+    }
+    
+    
+
+
    async function displayClient(){
        var result = await ClientModels.displayClient()
 
        return result;
 
    }
+
+
    async function singleClient(id){
        var result = await ClientModels.singleClient(id)
        return result;
    }
 
+
+
+
+//export functions
 module.exports = {
     Login ,
-    ActivateClient, displayClient, singleClient
+    ActivateClient,
+    displayClient,
+    singleClient
 
     // add more functions to export here
 };
