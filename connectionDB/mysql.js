@@ -20,6 +20,8 @@ connection.connect(function(error)
 });
 
 //There is no promise for mysql, so we used util.promisify for only query to use async / await
+
+//source: https://medium.com/@mhagemann/create-a-mysql-database-middleware-with-node-js-8-and-async-await-6984a09d49f4 
 connection.query = util.promisify(connection.query).bind(connection);
 
 module.exports = connection 
