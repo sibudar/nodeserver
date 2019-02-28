@@ -34,6 +34,12 @@ const bcrypt = require('bcrypt');
 
     }
 
+    //Activate client
+    async function ActivateClient(){
+        //all activate client code in here
+        
+
+    }
 
 
 
@@ -42,7 +48,9 @@ const bcrypt = require('bcrypt');
 
 
 
+// add more functions to export here,
 module.exports = {
-    Login // add more functions to export here
+    Login, 
+    ActivateClient
 };
 
