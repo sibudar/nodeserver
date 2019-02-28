@@ -8,8 +8,17 @@ const bcrypt = require('bcrypt');
 
         return result;
     }
+    async function ActivateClient(id){
+        var result = await ClientModels.ActivateClient(id)
+
+        return result;
+
+    }   
+
 
 
 module.exports = {
-    Login // add more functions to export here
+    Login ,
+    ActivateClient
+    // add more functions to export here
 };
