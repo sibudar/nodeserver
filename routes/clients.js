@@ -1,9 +1,7 @@
 const express = require('express');
-const ClientController = require('../controller/client-controller');
+const ClientCtr = require('../controller/client-controller');
 const router = express.Router();
 
-
-const ClientCtr = new ClientController();
 
 //console.log("uclient uya runner")
 

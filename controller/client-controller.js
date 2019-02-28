@@ -1,23 +1,15 @@
 
-const Models = require('../models/client-model');
+const ClientModels = require('../models/client-model');
 const bcrypt = require('bcrypt');
 
-const ClientModel = new Models();
 
-class ClientController{
-
-    async Login(email, password){
-
-
-
-
-        var result = await ClientModel.Login(email, password);
+    async function Login(email, password){
+        var result = await ClientModels.Login(email, password);
 
         return result;
     }
 
 
-
-}
-
-module.exports = ClientController;
+module.exports = {
+    Login // add more functions to export here
+};

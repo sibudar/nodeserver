@@ -19,7 +19,7 @@ connection.connect(function(error)
     } 
 });
 
-
+//There is no promise for mysql, so we used util.promisify for only query to use async / await
 connection.query = util.promisify(connection.query).bind(connection);
 
 module.exports = connection 
