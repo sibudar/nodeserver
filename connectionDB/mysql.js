@@ -1,3 +1,4 @@
+const util = require('util');
 const mysql = require('mysql')
 var connection = mysql.createConnection({
     host: 'whm.thedigitalacademy.co.za',
@@ -18,5 +19,7 @@ connection.connect(function(error)
     } 
 });
 
+
+connection.query = util.promisify(connection.query).bind(connection);
 
 module.exports = connection 
