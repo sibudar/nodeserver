@@ -36,15 +36,23 @@ const bcrypt = require('bcrypt');
 
     //Activate client
     async function ActivateClient(){
-        //all activate client code in here
-        
+
+        try{
+        let sql = {
+            sql: "CALL sp_activateClients(?)",
+            timeout: 40000, // 40s
+            values: [id]
+           }
+         // var sql = `CALL sp_activateClients(?)`;
+          const sqlResult = await connection.query(sql);
+
+          return sqlResult;
+        }catch(err){
+            
+   
+          }  
 
     }
-
-
-
-
-
 
 
 

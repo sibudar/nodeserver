@@ -108,24 +108,16 @@ console.log(id)
 
 
     // activating clients
-router.post('/activate-clients', function(req, res){
+router.post('/activate-clients', async function(req, res){
   var id = req.body.id;
 
-  let sql = {
-    sql: "CALL sp_activateClients(?)",
-    timeout: 40000, // 40s
-    values: [id]
-   }
- // var sql = `CALL sp_activateClients(?)`;
-  connection.query(sql, function(err, results){
-    if (err) 
-    res.send(err);
-    else
-    res.send('client activated');
+  var result = await ClientCtr.ActivateClient(id);
+
+    res.send(result);
   
   })
   
-  })
+  
 
 
 
