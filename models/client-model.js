@@ -3,8 +3,7 @@ const mysql = require('mysql');
 const connection = require('../connectionDB/mysql');
 const bcrypt = require('bcrypt');
 
-
-    async  function Login(email,password){
+async  function Login(email,password){
 
         try{
 
@@ -50,16 +49,58 @@ const bcrypt = require('bcrypt');
         }catch(err){
             return err;
             
-   
           }  
+    }
+     //admin displaying all clients
+    async function displayClient(){
+
+try{
+    let sql = {
+     sql:"CALL sp_displayClients",
+    }
+        const sqlResult = await connection.query(sql);
+        if (err) {
+       //res.status(200).send("clients displayed") : res.status(403).send("can't display")
+          res.json({'status' : 'Couldnt upload to db due to '});
+      }else{
+        return(result)   
+      } 
+
+    }catch(err){
+        return err;
+     }
 
     }
+  //display single client
+    async  function singleClient(id){
+        try{
+            connection.query("CALL sp_singleClient (?)", [id], function (err, result, fields){
+                const sqlResult = await connection.query(sql);
 
+                if (err) 
+                res.send(err);
+                //console.log(result);
+            else
+
+    
+                return(result[0])
+              })
+            }catch(err){
+
+            
+        return err;
+            }
+             }
+            
+
+        
+
+        
 
 
 // add more functions to export here,
 module.exports = {
     Login, 
-    ActivateClient
+    ActivateClient, displayClient, singleClient
 };
-
+    

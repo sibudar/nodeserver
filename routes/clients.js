@@ -54,36 +54,23 @@ router.post('/login', async function (req, res){
  
  //admin displaying all clients
 
-      router.get('/display-clients',(req, res) => {
-        connection.query("CALL sp_displayClients" ,function (err, result, fields){
-          if (err) {
-         //res.status(200).send("clients displayed") : res.status(403).send("can't display")
-            res.json({'status' : 'Couldnt upload to db due to '})
-        }else{
-          res.send(result[0])   
-
-        }  
-       })
+      router.get('/display-clients',async function(req, res)  {
+        var result = await ClientCtr.displayClient();
+        res.send(result);
+        
              }) 
 
 
   //display single client
   
-  router.get('/getSingle-client/:id' , (req, res) =>{
+  router.get('/getSingle-client/:id',async function  (req, res){
+ 
 var id = (req.params.id);
 //var sql = `CALL sp_singleClient ('${id}')`;
-    
- connection.query("CALL sp_singleClient (?)", [id], function (err, result, fields){
+var result = await ClientCtr.singleClient(id);  
+res.send(result);
 
-  if (err) 
-  res.send(err);
-  //console.log(result);
-  else
-  res.send(result[0])
-})
-console.log(id)
- })
-
+  })
           
    //delete clients
     router.post('/delete-clients', function(req, res){

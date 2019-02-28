@@ -39,7 +39,7 @@ router.get('/', function (req, resp) {
 router.get('/getSingleApp/:id', (req, resp) => {
 
     id = (req.params.id);
-    connection.query("call sp_SingleApp(" + id + ")", (error, rows, fields) => {
+    connection.query("call sp_SingleApp(?)", [id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -56,7 +56,7 @@ router.get('/cat/:id', (req, resp) => {
 
     id = (req.params.id);
 
-    connection.query("call sp_SelectCategoryApps(" + id + ")", (error, rows, fields) => {
+    connection.query("call sp_SelectCategoryApps(?)", [id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -73,7 +73,7 @@ router.get('/won/:id', (req, resp) => {
 
     id = (req.params.id);
 
-    connection.query("call sp_SelectCategoryAppsWon(" + id + ")", (error, rows, fields) => {
+    connection.query("call sp_SelectCategoryAppsWon(?)", [id], (error, rows, fields) => {
         if (error) {
             console.log('Error in the query');
             resp.send(error);
@@ -88,7 +88,9 @@ router.get('/won/:id', (req, resp) => {
 router.delete('/deleteapp/:id', (req, resp) => {
 
 
-    connection.query("call sp_DeleteApp('" + req.params.id + "')", (error, rows, fields) => {
+    id = (req.params.id);
+
+    connection.query("call sp_DeleteApp(?)", [id], (error, rows, fields) => {
         if (!error) {
 
             resp.send('application deleted succesfully');
@@ -101,77 +103,18 @@ router.delete('/deleteapp/:id', (req, resp) => {
 
 });
 
-
-
-//Insert applications
-router.post('/add', function (req, res) {
-
-
-    name = req.body.name;
-    longDesc = req.body.longDesc;
-    shortDesc = req.body.shortDesc;
-    icon = req.files.icon;
-    developers = req.body.developers;
-    img1 = req.files.img1;
-    img2 = req.files.img2;
-    img3 = req.files.img3;
-    img4 = req.files.img4;
-    won = req.body.won;
-    categoryID = req.body.categoryID;
-    adminID = req.body.adminID;
-    url = req.body.url;
-
-
-
-    iconName = icon.name;
-    imgName1 = img1.name;
-    imgName2 = img2.name;
-    imgName3 = img3.name;
-    imgName4 = img4.name;
-
-    icon.mv("./public/icons/" + iconName, function (err) {
-        console.log(err);
-    });
-
-    img1.mv("./public/screenshots/" + imgName1, function (err) {
-        console.log(err);
-    });
-    img2.mv("./public/screenshots/" + imgName2, function (err) {
-        console.log(err);
-    });
-    img3.mv("./public/screenshots/" + imgName3, function (err) {
-        console.log(err);
-    });
-    img4.mv("./public/screenshots/" + imgName4, function (err) {
-        console.log(err);
-    });
-
-
-    connection.query("call sp_InsertApplications('" + name + "','" + longDesc + "','" + shortDesc + "','" + iconName + "','" + developers + "','" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "','" + won + "','" + categoryID + "','" + adminID + "','"+url+"')", function (err) {
-
-
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application added succesfully" });
-    });
-
-});
-
 //update application information
 router.post('/update-info', (req, res) => {
 
 
+    id = req.body.id;
     name = req.body.name;
     developers = req.body.developers;
-    id = req.body.id;
     categoryID = req.body.categoryID;
 
 
 
-    connection.query("call sp_UpdateAppInfo(" + id + ",'" + name + "','" + developers + "','" + categoryID + "')", function (err) {
+    connection.query("call sp_UpdateAppInfo(?,?,?,?)", [id, name, developers, categoryID], function (err) {
 
 
 
@@ -187,15 +130,15 @@ router.post('/update-info', (req, res) => {
 //update  application long and short descriptions
 router.post('/update-desc', (req, res) => {
 
-
+    id = req.body.id;
     longDesc = req.body.longDesc;
     shortDesc = req.body.shortDesc;
-    id = req.body.id;
 
 
 
 
-    connection.query("call sp_UpdateDescriptions(" + id + ",'" + longDesc + "','" + shortDesc + "')", function (err) {
+
+    connection.query("call sp_UpdateDescriptions(?,?,?)", [id, longDesc, shortDesc], function (err) {
 
 
 
@@ -214,9 +157,9 @@ router.post('/update-desc', (req, res) => {
 router.post('/update-icon', (req, res) => {
 
 
-
-    icon = req.files.icon;
     id = req.body.id;
+    icon = req.files.icon;
+
 
 
     iconName = icon.name;
@@ -242,62 +185,15 @@ router.post('/update-icon', (req, res) => {
 
 });
 
-//Update screenshots API
-router.post('/update-screenshots', (req, res) => {
 
-
-
-    img1 = req.files.img1;
-    img2 = req.files.img1;
-    img3 = req.files.img1;
-    img4 = req.files.img1;
-    id = req.body.id;
-
-    imgName1 = img1.name;
-    imgName2 = img2.name;
-    imgName3 = img3.name;
-    imgName4 = img4.name;
-
-
-
-    img1.mv("./public/screenshots/" + imgName1, function (err) {
-        console.log(err);
-    });
-    img2.mv("./public/screenshots/" + imgName2, function (err) {
-        console.log(err);
-    });
-    img3.mv("./public/screenshots/" + imgName3, function (err) {
-        console.log(err);
-    });
-    img4.mv("./public/screenshots/" + imgName4, function (err) {
-        console.log(err);
-    });
-
-
-    connection.query("call sp_UpdateScreenshots(" + id + ",'" + imgName1 + "','" + imgName2 + "','" + imgName3 + "','" + imgName4 + "')", function (err) {
-
-
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application screnshots updated succesfully" });
-    });
-
-});
 
 //Update won field
 router.post('/update-won', (req, res) => {
 
-
-    won = req.body.won;
     id = req.body.id;
+    won = req.body.won;
 
-
-
-
-    connection.query("call sp_UpdateWon(" + id + ",'" + won + "')", function (err) {
+    connection.query("call sp_UpdateWon(?,?)", [id, won], function (err) {
 
 
 
@@ -311,10 +207,10 @@ router.post('/update-won', (req, res) => {
 });
 
 //Activate Apps
-router.post('/:id', (req, resp) => {
+router.post('/activate-apps/:id', (req, resp) => {
 
-
-    connection.query("call sp_ActivateApps('" + req.params.id + "')", (error, rows, fields) => {
+    id = (req.params.id);
+    connection.query("call sp_ActivateApps(?)", [id], (error, rows, fields) => {
         if (!error) {
 
             resp.send('application activated succesfully');
@@ -330,7 +226,7 @@ router.post('/:id', (req, resp) => {
 //Get all new applications
 router.get('/new-apps', function (req, resp) {
 
-    
+
     connection.query("call sp_SelectNewApps", function (error, rows, fields) {
         if (error) {
             console.log('Error in the query');
@@ -339,8 +235,72 @@ router.get('/new-apps', function (req, resp) {
         }
 
     })
-    
+
 
 });
+
+//Insert applications
+router.post('/insert-application', (req, res) => {
+
+
+    name = req.body.name;
+    longDesc = req.body.longDesc;
+    shortDesc = req.body.shortDesc;
+    icon = req.files.icon;
+    developers = req.body.developers;
+    won = req.body.won;
+    categoryID = req.body.categoryID;
+    adminID = req.body.adminID;
+    url = req.body.url;
+    let c = req.files;
+    let x = Object.keys(c);
+
+
+    iconName = icon.name;
+
+    var imagenames = "[";
+
+    console.log();
+
+
+    if (c.image.length <= 10 && c.image.length >= 1) {
+        c.image.forEach(element => {
+
+
+            element.mv("./public/test/" + element.name, function (err) {
+
+            });
+            imagenames += element.name + ",";
+
+            icon.mv("./public/icons/" + iconName, function (err) {
+                console.log(err);
+            });
+
+        });
+
+        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+
+
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
+        });
+        res.json({ res: "Application uploaded successfully" });
+
+    } else {
+
+        res.json({ res: "Cannot upload more than 10 images" });
+    }
+
+
+
+
+
+
+
+
+});
+
+
+
+
 
 module.exports = router;
