@@ -9,7 +9,6 @@ const bcrypt = require('bcrypt');
         return result;
     }
 
-
     async function ActivateClient(id){
         var result = await ClientModels.ActivateClient(id)
 
@@ -17,8 +16,6 @@ const bcrypt = require('bcrypt');
 
     }
     
-    
-
 
    async function displayClient(){
        var result = await ClientModels.displayClient()
@@ -33,15 +30,36 @@ const bcrypt = require('bcrypt');
        return result;
    }
 
+   async function deleteClient(id){
+    var result = await ClientModels.deleteClient(id)
+    return result;
+
+   }
 
 
+   async function addClient(firstname, lastname, organization, password,email, active, adminID){
+       var result = await ClientModels.addClient(firstname, lastname, organization, password,email, active, adminID)
+       return result;
+
+   }
+
+   async function updateClient(id,firstname, lastname, organization, email){
+       var result = await ClientModels.updateClient(id,firstname, lastname, organization, email)
+       return result;
+
+
+   }
 
 //export functions
 module.exports = {
     Login ,
     ActivateClient,
     displayClient,
-    singleClient
+    singleClient,
+    deleteClient,
+    addClient,
+    updateClient,
+    
 
     // add more functions to export here
 };
