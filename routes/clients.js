@@ -55,7 +55,7 @@ router.get('/getSingle-client/:id',async function(req, res){
       var id = (req.params.id);
       var result = await ClientCtr.singleClient(id);
 
-    res.send(result);
+    res.send(result[0]);
 
 })
           
@@ -64,7 +64,7 @@ router.post('/delete-clients',async function(req, res){
       var id = req.body.id;
       var result = await ClientCtr.deleteClient(id);
 
-      res.send(result);
+      res.send(result[0]);
       
     })
 
@@ -75,7 +75,7 @@ router.post('/activate-clients', async function(req, res){
 
       var result = await ClientCtr.ActivateClient(id);
 
-    res.send(result);
+    res.send(result[0]);
   
   }) 
   
@@ -90,7 +90,7 @@ router.post('/update-clients',async function(req, res){
 
     var result = await ClientCtr.updateClient(id,firstname, lastname, organization, email);
 
-    res.send(result);
+    res.send(result[0]);
     
   //var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
   //var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${email = email}')`;

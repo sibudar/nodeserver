@@ -65,7 +65,7 @@ async function displayClient() {
 async function singleClient(id) {
     try {
 
-        const sql = { sql: "CALL sp_activateClients(?)", values: [id] }
+        const sql = { sql: "CALL sp_singleClient(?)", values: [id] }
         const sqlResult = await connection.query(sql);
 
         return sqlResult;
