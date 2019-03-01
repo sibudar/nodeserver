@@ -1,7 +1,7 @@
 const express = require('express');
 const ClientCtr = require('../controller/client-controller');
 const router = express.Router();
-
+const bcrypt = require('bcrypt');
 
 //console.log("uclient uya runner")
 
@@ -12,11 +12,10 @@ const router = express.Router();
   });
 
 //clients login
-router.post('/login', async function (req, res){
+router.post('/login', async function(req, res){
     // console.log("req")
     var email =  req.body.email;
     var password = req.body.password;
-
     var result = await ClientCtr.Login(email,password);
 
     res.send(result);
@@ -24,7 +23,7 @@ router.post('/login', async function (req, res){
 })
 
       //Insert clients
-      router.post('/add-clients', function (req, res) {
+      router.post('/add-clients',async function(req, res) {
         
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
@@ -33,115 +32,70 @@ router.post('/login', async function (req, res){
     var email = req.body.email;
     var active = req.body.active;
     var adminID = req.body.adminID;
-    
-    var fields = [[ firstname, lastname, organization, password,email, active, adminID]];
-   //var sql = "INSERT INTO clients (firstname,lastname,organization,password, email, active, adminID)VALUES ?";
-   //var sql = `CALL sp_addClients('${firstname}','${lastname}','${organization}','${password}','${email}','${active}','${adminID}')`;
-    connection.query("CALL sp_addClients(?,?,?,?,?,?,?)",[firstname, lastname, organization, password, email, active, adminID],function(err, results) {
-      if (err) {
-        res.status(205).send("Eroor ");
-      }
-      if(results){
-          
-          console.log("data added!")
-         res.json("data added!")
-      }
 
-  })
+    var result = await ClientCtr.addClient(firstname, lastname, organization, password,email, active, adminID);
+
+    res.send(result);
+
 
  })
 
  
  //admin displaying all clients
-
-      router.get('/display-clients',(req, res) => {
-        connection.query("CALL sp_displayClients" ,function (err, result, fields){
-          if (err) {
-         //res.status(200).send("clients displayed") : res.status(403).send("can't display")
-            res.json({'status' : 'Couldnt upload to db due to '})
-        }else{
-          res.send(result[0])   
-
-        }  
-       })
-             }) 
+router.get('/display-clients',async function(req, res)  {
+    var result = await ClientCtr.displayClient();
+    res.send(result);
+        
+}) 
 
 
-  //display single client
-  
-  router.get('/getSingle-client/:id' , (req, res) =>{
-var id = (req.params.id);
-//var sql = `CALL sp_singleClient ('${id}')`;
-    
- connection.query("CALL sp_singleClient (?)", [id], function (err, result, fields){
+//display single client  
+router.get('/getSingle-client/:id',async function(req, res){
+ 
+      var id = (req.params.id);
+      var result = await ClientCtr.singleClient(id);
 
-  if (err) 
-  res.send(err);
-  //console.log(result);
-  else
-  res.send(result[0])
+    res.send(result);
+
 })
-console.log(id)
- })
-
           
-   //delete clients
-    router.post('/delete-clients', function(req, res){
+//delete clients
+router.post('/delete-clients',async function(req, res){
       var id = req.body.id;
-      let sql = {
-        sql: "CALL sp_DeleteClients(?)",
-        values: [id]
-       }
-      //var sql = `CALL sp_DeleteClients(${id})`;
-    connection.query(sql, function(err, results){
-        if (err) {
-        res.json({'status' : 'fail to delete due to' })
-      }else{
-        res.send('client deleted');
-      }
+      var result = await ClientCtr.deleteClient(id);
 
-      })
-
+      res.send(result);
+      
     })
-
-
 
 
     // activating clients
 router.post('/activate-clients', async function(req, res){
-  var id = req.body.id;
+      var id = req.body.id;
 
-  var result = await ClientCtr.ActivateClient(id);
+      var result = await ClientCtr.ActivateClient(id);
 
     res.send(result);
   
-  })
+  }) 
   
-  
-
-
 
 //update clients
-router.post('/update-clients', function(req, res){
+router.post('/update-clients',async function(req, res){
   var id = req.body.id;
   var firstname = req.body.firstname;
     var lastname = req.body.lastname;
     var organization = req.body.organization;
     var email = req.body.email;
+
+    var result = await ClientCtr.updateClient(id,firstname, lastname, organization, email);
+
+    res.send(result);
     
   //var sql = "UPDATE clients SET firstname='"+firstname+"',lastname='"+lastname+"',organization='"+organization+"',password='"+password+"',email='"+email+"',active="+active +" WHERE id="+mysql.escape(id);
   //var sql = `CALL sp_updateClients ('${id = id}','${firstname = firstname}','${lastname = lastname}','${organization = organization}','${email = email}')`;
-connection.query("CALL sp_updateClients(?,?,?,?,?)",[id,firstname, lastname, organization, email], function(err, results){
-  if (err)
-  res.send (err);
-  else
-  res.send('client updated');
-})
-// res.json({
-//   mysql: sql
-// });
-
 })
 
-      module.exports=router;
+
+module.exports=router;
       
