@@ -187,13 +187,32 @@ router.post('/update-icon', (req, res) => {
 
 
 
-//Update won field
-router.post('/update-won', (req, res) => {
+//Make app win
+router.post('/makeAppWin', (req, res) => {
 
     id = req.body.id;
-    won = req.body.won;
+    
 
-    connection.query("call sp_UpdateWon(?,?)", [id, won], function (err) {
+    connection.query("call sp_MakeAppWin(?)", [id], function (err) {
+
+
+
+
+        if (err)
+            res.send(err);
+        else
+            res.send({ status: "application won field  updated succesfully" });
+    });
+
+});
+
+//Make app loose
+router.post('/makeAppLoose', (req, res) => {
+
+    id = req.body.id;
+    
+
+    connection.query("call sp_MakeAppLoose(?)", [id], function (err) {
 
 
 
@@ -242,12 +261,12 @@ router.get('/new-apps', function (req, resp) {
 //Insert applications
 router.post('/insert-application', (req, res) => {
 
-
     name = req.body.name;
     longDesc = req.body.longDesc;
     shortDesc = req.body.shortDesc;
     icon = req.files.icon;
     developers = req.body.developers;
+    image = req.files.image;
     won = req.body.won;
     categoryID = req.body.categoryID;
     adminID = req.body.adminID;
@@ -258,35 +277,50 @@ router.post('/insert-application', (req, res) => {
 
     iconName = icon.name;
 
+    imagenames = image.name;
+
     var imagenames = "[";
 
-    console.log();
 
+    if (!Array.isArray(req.files.image)) {
 
-    if (c.image.length <= 10 && c.image.length >= 1) {
+    
+
+        image.mv("./public/test/" + imagenames, function (err) {
+            console.log('Error is: ',err);
+
+        });
+
+       
+         imagenames += image.name + "]" ;
+         
+        console.log(imagenames)
+
+         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
+        });
+        res.json({ res: "Application uploaded successfully" });
+   
+       
+
+    } else if(c.image.length <= 10) {
         c.image.forEach(element => {
 
-
             element.mv("./public/test/" + element.name, function (err) {
-
             });
             imagenames += element.name + ",";
 
             icon.mv("./public/icons/" + iconName, function (err) {
                 console.log(err);
             });
-
         });
 
         imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
 
-
         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
         });
         res.json({ res: "Application uploaded successfully" });
-
-    } else {
-
+       
+    }else{
         res.json({ res: "Cannot upload more than 10 images" });
     }
 
