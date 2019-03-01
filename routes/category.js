@@ -1,7 +1,7 @@
 const express = require('express');
-const connection = require('../connectionDB/mysql');
 const router = express.Router();
-const mysql = require('mysql');
+const CategoryCtr = require('../controller/category-controller');
+
 
 //add categories
 
@@ -52,4 +52,16 @@ res.send(result)
 
 
    }) 
+
+   //delete category
+    
+   router.post('/delete-category',async function(req, res){
+
+       var id = req.body.id;
+       var result = await CategoryCtr.deleteCategory(id);
+
+       res.send(result);
+
+    })
+
     module.exports=router;
