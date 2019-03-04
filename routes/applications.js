@@ -1,9 +1,9 @@
-const mysql = require('mysql');
+
 const express = require('express');
 const connection = require('../connectionDB/mysql');
 const router = express.Router();
 const app = express();
-
+const AppCtr = require('../controller/app-controller');
 
 
 // router.get('/', (req, res, next) => {
@@ -20,244 +20,140 @@ router.get('/nonny', (req, res, next) => {
 
 
 //Get all active applications
-router.get('/', function (req, resp) {
 
-    //console.log('Devon')
-    connection.query("call sp_SelectActiveApps", function (error, rows, fields) {
-        if (error) {
-            console.log('Error in the query');
-        } else {
-            resp.json(rows[0]);
-        }
+router.get('/display-apps', async function (req, res) {
+    var result = await AppCtr.displayApp();
+    res.send(result[0]);
 
-    })
-
-});
+})
 
 
 
 //Get single application
-router.get('/getSingleApp/:id', (req, resp) => {
+router.get('/getSingleApp/:id', async function (req, res) {
 
-    id = (req.params.id);
-    connection.query("call sp_SingleApp(?)", [id], (error, rows, fields) => {
-        if (error) {
-            console.log('Error in the query');
-            resp.send(error);
-        } else {
-            resp.json(rows[0]);
-        }
+    var id = (req.params.id);
+    var result = await AppCtr.singleApp(id);
 
-    })
+    res.send(result[0]);
 
-});
+})
+
+//Delete application
+router.delete('/delete-app/:id', async function (req, res) {
+    var id = (req.params.id);
+    var result = await AppCtr.deleteApp(id);
+
+    res.send(result[0]);
+
+})
+
 
 //Get application according to category
-router.get('/cat/:id', (req, resp) => {
+router.get('/cat/:id', async function (req, res) {
 
-    id = (req.params.id);
+    var id = (req.params.id);
+    var result = await AppCtr.categoryApp(id);
+    res.send(result[0]);
 
-    connection.query("call sp_SelectCategoryApps(?)", [id], (error, rows, fields) => {
-        if (error) {
-            console.log('Error in the query');
-            resp.send(error);
-        } else {
-            resp.json(rows[0]);
-        }
-
-    })
-
-});
+})
 
 //Get top rated applications according to category
-router.get('/won/:id', (req, resp) => {
+router.get('/won/:id', async function (req, res) {
 
-    id = (req.params.id);
+    var id = (req.params.id);
+    var result = await AppCtr.wonApp(id);
+    res.send(result[0]);
 
-    connection.query("call sp_SelectCategoryAppsWon(?)", [id], (error, rows, fields) => {
-        if (error) {
-            console.log('Error in the query');
-            resp.send(error);
-        } else {
-            resp.json(rows[0]);
-        }
-
-    })
-
-});
-//Delete application
-router.delete('/deleteapp/:id', (req, resp) => {
-
-
-    id = (req.params.id);
-
-    connection.query("call sp_DeleteApp(?)", [id], (error, rows, fields) => {
-        if (!error) {
-
-            resp.send('application deleted succesfully');
-        } else {
-            console.log(error);
-        }
-
-
-    })
-
-});
+})
 
 //update application information
-router.post('/update-info', (req, res) => {
+router.post('/update-info', async function (req, res) {
+
+    var id = req.body.id;
+    var name = req.body.name;
+    var developers = req.body.developers;
+    var categoryID = req.body.categoryID;
 
 
-    id = req.body.id;
-    name = req.body.name;
-    developers = req.body.developers;
-    categoryID = req.body.categoryID;
+    var result = await AppCtr.updateAppInfo(id, name, developers, categoryID);
+
+    res.send(result[0]);
 
 
-
-    connection.query("call sp_UpdateAppInfo(?,?,?,?)", [id, name, developers, categoryID], function (err) {
-
-
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application updated succesfully" });
-    });
-
-});
+})
 
 //update  application long and short descriptions
-router.post('/update-desc', (req, res) => {
+router.post('/update-desc', async function (req, res) {
 
-    id = req.body.id;
-    longDesc = req.body.longDesc;
-    shortDesc = req.body.shortDesc;
-
-
+    var id = req.body.id;
+    var longDesc = req.body.longDesc;
+    var shortDesc = req.body.shortDesc;
 
 
+    var result = await AppCtr.updateDescriptions(id, longDesc, shortDesc);
 
-    connection.query("call sp_UpdateDescriptions(?,?,?)", [id, longDesc, shortDesc], function (err) {
+    res.send(result[0]);
 
 
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application descriptions updated succesfully" });
-    });
-
-});
+})
 
 
 
 //Update application icon
-router.post('/update-icon', (req, res) => {
+router.post('/update-icon', async function (req, res) {
+
+    var id = req.body.id;
+    var icon = req.files.icon;
 
 
-    id = req.body.id;
-    icon = req.files.icon;
+    var result = await AppCtr.updateIcon(id, icon);
+
+    res.send(result);
 
 
-
-    iconName = icon.name;
-
-
-
-
-    icon.mv("./public/icons/" + iconName, function (err) {
-        console.log(err);
-    });
-
-
-    connection.query("call sp_UpdateIcon(" + id + ",'" + iconName + "')", function (err) {
-
-
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application icon updated succesfully" });
-    });
-
-});
-
+})
 
 
 //Make app win
-router.post('/makeAppWin', (req, res) => {
+router.post('/makeAppWin/:id', async function (req, res) {
 
-    id = req.body.id;
-    
+    var id = (req.params.id);
 
-    connection.query("call sp_MakeAppWin(?)", [id], function (err) {
+    var result = await AppCtr.makeAppWin(id);
+
+    res.send(result);
 
 
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application won field  updated succesfully" });
-    });
-
-});
+})
 
 //Make app loose
-router.post('/makeAppLoose', (req, res) => {
+router.post('/makeAppLoose/:id', async function (req, res) {
 
-    id = req.body.id;
-    
+    var id = (req.params.id);
 
-    connection.query("call sp_MakeAppLoose(?)", [id], function (err) {
+    var result = await AppCtr.makeAppLoose(id);
+
+    res.send(result);
 
 
-
-
-        if (err)
-            res.send(err);
-        else
-            res.send({ status: "application won field  updated succesfully" });
-    });
-
-});
-
+})
 //Activate Apps
-router.post('/activate-apps/:id', (req, resp) => {
+router.post('/activate-apps', async function (req, res) {
+    var id = req.body.id;
 
-    id = (req.params.id);
-    connection.query("call sp_ActivateApps(?)", [id], (error, rows, fields) => {
-        if (!error) {
+    var result = await AppCtr.activateApp(id);
 
-            resp.send('application activated succesfully');
-        } else {
-            console.log(error);
-        }
+    res.send(result[0]);
 
-
-    })
-
-});
+})
 
 //Get all new applications
-router.get('/new-apps', function (req, resp) {
+router.get('/new-apps', async function (req, res) {
+    var result = await AppCtr.newApp();
+    res.send(result);
 
-
-    connection.query("call sp_SelectNewApps", function (error, rows, fields) {
-        if (error) {
-            console.log('Error in the query');
-        } else {
-            resp.json(rows[0]);
-        }
-
-    })
-
-
-});
+})
 
 //Insert applications
 router.post('/insert-application', (req, res) => {
@@ -285,25 +181,25 @@ router.post('/insert-application', (req, res) => {
 
     if (!Array.isArray(req.files.image)) {
 
-    
+
 
         image.mv("./public/test/" + imagenames, function (err) {
-            console.log('Error is: ',err);
+            console.log('Error is: ', err);
 
         });
 
-       
-         imagenames += image.name + "]" ;
-         
+
+        imagenames += image.name + "]";
+
         console.log(imagenames)
 
-         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
         });
         res.json({ res: "Application uploaded successfully" });
-   
-       
 
-    } else if(c.image.length <= 10) {
+
+
+    } else if (c.image.length <= 10) {
         c.image.forEach(element => {
 
             element.mv("./public/test/" + element.name, function (err) {
@@ -320,22 +216,11 @@ router.post('/insert-application', (req, res) => {
         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
         });
         res.json({ res: "Application uploaded successfully" });
-       
-    }else{
+
+    } else {
         res.json({ res: "Cannot upload more than 10 images" });
     }
 
-
-
-
-
-
-
-
-});
-
-
-
-
+})
 
 module.exports = router;
