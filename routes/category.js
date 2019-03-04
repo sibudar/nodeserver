@@ -5,8 +5,10 @@ const CategoryCtr = require('../controller/category-controller');
 
 //add categories
 
-router.post('/add-category',(req, res) => {
+router.post('/add-category',async function(req, res) {
     var name = req.body.name;
+    var active = req.body.active;
+    
     var sql = "INSERT INTO category (name) VALUES ?";
    
     connection.query(sql, [[[name]]],function(err, result){
@@ -19,39 +21,16 @@ router.post('/add-category',(req, res) => {
     
     })
 
-
-//Get applications according to category
-router.get('/categoryID', (req, resp) => {
-
-
-    connection.query("SELECT * FROM category WHERE id=?", [req.params.id], (error, rows, fields) => {
-        if (error) {
-            console.log('Error in the query');
-            resp.send(error);
-        } else {
-            resp.json(rows);
-        }
-
-    })
-
-});
-
     //displaying categories
 
+router.get('/display-category',async function(req, res) {
 
-router.get('/display-category',(req, res) => {
-   
-   connection.query("SELECT * FROM category",function (err, result, fields){
-if (err) throw err;
-console.log(result); 
-res.send(result)
-
-
+     var result = await CategoryCtr.displayCategory();
+ 
+     res.send(result[0]);
 
    })
 
-
-   }) 
 
    //delete category
     
@@ -60,8 +39,23 @@ res.send(result)
        var id = req.body.id;
        var result = await CategoryCtr.deleteCategory(id);
 
-       res.send(result);
-
+       res.send(result[0]);
+       
     })
+
+    //updating category
+
+    router.post('/update-category',async function(req, res){
+
+        var id = req.body.id;
+        var name = req.body.name;
+        var active = req.body.active;
+
+        var result = await CategoryCtr.updateCategory(id, name, active);
+ 
+        res.send(result[0]);
+        
+     })
+
 
     module.exports=router;
