@@ -17,6 +17,12 @@ async function displayCategory(){
     var result = await categoryModels.displayCategory()
     return result;
 
+}
+
+async function addCategory(name, active){
+    var result = await categoryModels.addCategory(name, active)
+    return result;
+
 
 
 }
@@ -42,9 +48,7 @@ module.exports = {
     deleteCategory,
     updateCategory,
     displayCategory,
-
-
-
+    addCategory,
 
 
 };
