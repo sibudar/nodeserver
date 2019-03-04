@@ -9,8 +9,6 @@ validations and some other logics
 
 */
 
-
-
 const express = require('express');
 const ClientCtr = require('../controller/client-controller'); //controller
 const router = express.Router();
