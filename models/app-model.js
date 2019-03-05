@@ -23,7 +23,7 @@ async function activateApp(id) {
 async function displayApp() {
 
     try {
-        let sql = { sql: "CALL sp_SelectActiveApps" }
+        let sql = { sql: "CALL sp_DisplayAllApps" }
         const sqlResult = await connection.query(sql);
 
         return sqlResult
@@ -33,6 +33,19 @@ async function displayApp() {
     }
 }
 
+//Display active apps
+async function displayActiveApps() {
+
+    try {
+        let sql = { sql: "CALL sp_DisplayActiveApps" }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
+    }
+}
 //Get single app
 async function singleApp(id) {
     try {
@@ -49,201 +62,203 @@ async function singleApp(id) {
 
 async function deleteApp(id) {
 
-    try{
-           
+    try {
+
         let sql = {
             sql: "CALL sp_DeleteApp(?)",
             values: [id]
-           }
-          const sqlResult = await connection.query(sql);
-         
-          return sqlResult;
-    
-    }catch(err){
-    
-        return err;
-    
-    }
-    
-    }
-    
- async function categoryApp(id) {
-
-        try {
-            let sql = { 
-                sql: "CALL sp_SelectCategoryApps(?)",
-                values: [id]
-           }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult
-    
-        } catch (err) {
-            return err;
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult;
+
+    } catch (err) {
+
+        return err;
+
     }
+
+}
+
+async function categoryApp(id) {
+
+    try {
+        let sql = {
+            sql: "CALL sp_SelectCategoryApps(?)",
+            values: [id]
+        }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
+    }
+}
 
 async function wonApp(id) {
 
-        try {
-            let sql = { 
-                sql: "CALL sp_SelectCategoryAppsWon(?)",
-                values: [id]
-           }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult
-    
-        } catch (err) {
-            return err;
+    try {
+        let sql = {
+            sql: "CALL sp_SelectCategoryAppsWon(?)",
+            values: [id]
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
     }
+}
 
 async function updateAppInfo(id, name, developers, categoryID) {
 
-        try {
-            let sql = { 
-                sql: "CALL sp_UpdateAppInfo(?,?,?,?)",
-                values: [id, name, developers, categoryID]
-           }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult
-    
-        } catch (err) {
-            return err;
+    try {
+        let sql = {
+            sql: "CALL sp_UpdateAppInfo(?,?,?,?)",
+            values: [id, name, developers, categoryID]
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
     }
+}
 
 async function updateDescriptions(id, longDesc, shortDesc) {
 
-        try {
-            let sql = { 
-                sql: "CALL sp_UpdateDescriptions(?,?,?)",
-                values: [id, longDesc, shortDesc]
-           }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult
-    
-        } catch (err) {
-            return err;
+    try {
+        let sql = {
+            sql: "CALL sp_UpdateDescriptions(?,?,?)",
+            values: [id, longDesc, shortDesc]
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
     }
+}
 
 async function updateIcon(id, icon) {
 
-        try {
-            let sql = { 
-                sql: "CALL sp_UpdateIcon(?,?)",
-                values: [id, icon]
-           }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult
-    
-        } catch (err) {
-            return err;
+    try {
+        let sql = {
+            sql: "CALL sp_UpdateIcon(?,?)",
+            values: [id, icon]
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
     }
-    async function makeAppWin(id) {
-        try {
-    
-            const sql = { sql: "CALL sp_MakeAppWin(?)",
-             values: [id] }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult;
-    
-        } catch (err) {
-            return err;
+}
+async function makeAppWin(id) {
+    try {
+
+        const sql = {
+            sql: "CALL sp_MakeAppWin(?)",
+            values: [id]
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult;
+
+    } catch (err) {
+        return err;
     }
+}
 
 async function makeAppLoose(id) {
-        try {
-    
-            const sql = { sql: "CALL sp_MakeAppLoose(?)",
-             values: [id] }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult;
-    
-        } catch (err) {
-            return err;
+    try {
+
+        const sql = {
+            sql: "CALL sp_MakeAppLoose(?)",
+            values: [id]
         }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult;
+
+    } catch (err) {
+        return err;
     }
+}
 
 async function newApp() {
 
-        try {
-            let sql = { sql: "CALL sp_SelectNewApps" }
-            const sqlResult = await connection.query(sql);
-    
-            return sqlResult
-    
-        } catch (err) {
-            return err;
-        }
+    try {
+        let sql = { sql: "CALL sp_SelectNewApps" }
+        const sqlResult = await connection.query(sql);
+
+        return sqlResult
+
+    } catch (err) {
+        return err;
+    }
+}
+
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c) {
+
+
+    //let x = Object.keys(c);
+
+    iconName = icon.name;
+
+    imagenames = image.name;
+
+    var imagenames = "[";
+
+
+    if (!Array.isArray(req.files.image)) {
+
+
+
+        image.mv("./public/test/" + imagenames, function (err) {
+            console.log('Error is: ', err);
+
+        });
+
+
+        imagenames += image.name + "]";
+
+        console.log(imagenames)
+
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c], function (err) {
+        });
+        res.json({ res: "Application uploaded successfully" });
+
+
+
+    } else if (c.image.length <= 10) {
+        c.image.forEach(element => {
+
+            element.mv("./public/test/" + element.name, function (err) {
+            });
+            imagenames += element.name + ",";
+
+            icon.mv("./public/icons/" + iconName, function (err) {
+                console.log(err);
+            });
+        });
+
+        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c], function (err) {
+        });
+        res.json({ res: "Application uploaded successfully" });
+
+    } else {
+        res.json({ res: "Cannot upload more than 10 images" });
     }
 
-    // async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url){
-   
-    //     let x = Object.keys(c);
-
-
-    //     iconName = icon.name;
-    
-    //     imagenames = image.name;
-    
-    //     var imagenames = "[";
-    
-    
-    //     if (!Array.isArray(req.files.image)) {
-    
-    
-    
-    //         image.mv("./public/test/" + imagenames, function (err) {
-    //             console.log('Error is: ', err);
-    
-    //         });
-    
-    
-    //         imagenames += image.name + "]";
-    
-    //         console.log(imagenames)
-    
-    //         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
-    //         });
-    //         res.json({ res: "Application uploaded successfully" });
-    
-    
-    
-    //     } else if (c.image.length <= 10) {
-    //         c.image.forEach(element => {
-    
-    //             element.mv("./public/test/" + element.name, function (err) {
-    //             });
-    //             imagenames += element.name + ",";
-    
-    //             icon.mv("./public/icons/" + iconName, function (err) {
-    //                 console.log(err);
-    //             });
-    //         });
-    
-    //         imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
-    
-    //         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
-    //         });
-    //         res.json({ res: "Application uploaded successfully" });
-    
-    //     } else {
-    //         res.json({ res: "Cannot upload more than 10 images" });
-    //     }
-    
-    //     }
-    
-    
+}
 
 module.exports = {
     activateApp,
@@ -258,5 +273,6 @@ module.exports = {
     makeAppWin,
     makeAppLoose,
     newApp,
-    // addApp,
+    addApp,
+    displayActiveApps,
 };

@@ -15,6 +15,13 @@ async function displayApp(){
 
 }
 
+async function displayActiveApps(){
+    var result = await AppModels.displayActiveApps()
+
+    return result;
+
+}
+
 async function singleApp(id){
     var result = await AppModels.singleApp(id)
     return result;
@@ -68,6 +75,12 @@ async function newApp(id){
     return result;
 }
 
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url , c){
+   
+    var result = await AppModels.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,c)
+    return result;
+
+}
 
 //export functions
 module.exports = {
@@ -83,8 +96,6 @@ module.exports = {
    makeAppWin,
    makeAppLoose,
    newApp,
-//    addApp,
-    
-
-   
+   addApp,    
+   displayActiveApps,                                                                  
 };

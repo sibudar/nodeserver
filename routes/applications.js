@@ -6,12 +6,6 @@ const app = express();
 const AppCtr = require('../controller/app-controller');
 
 
-// router.get('/', (req, res, next) => {
-//     res.status(200).json({
-//         message: 'Get all applications'
-//     })
-// });
-
 router.get('/nonny', (req, res, next) => {
     res.status(200).json({
         message: 'added nonny'
@@ -19,7 +13,7 @@ router.get('/nonny', (req, res, next) => {
 });
 
 
-//Get all active applications
+//Get all  applications
 
 router.get('/display-apps', async function (req, res) {
     var result = await AppCtr.displayApp();
@@ -27,7 +21,12 @@ router.get('/display-apps', async function (req, res) {
 
 })
 
+//Get active applications
+router.get('/active-apps', async function (req, res) {
+    var result = await AppCtr.displayActiveApps();
+    res.send(result[0]);
 
+})
 
 //Get single application
 router.get('/getSingleApp/:id', async function (req, res) {
@@ -98,8 +97,6 @@ router.post('/update-desc', async function (req, res) {
 
 })
 
-
-
 //Update application icon
 router.post('/update-icon', async function (req, res) {
 
@@ -156,8 +153,9 @@ router.get('/new-apps', async function (req, res) {
 })
 
 //Insert applications
-router.post('/insert-application', (req, res) => {
-
+router.post('/insert-apps',async function(req, res) {
+        
+   
     name = req.body.name;
     longDesc = req.body.longDesc;
     shortDesc = req.body.shortDesc;
@@ -168,59 +166,93 @@ router.post('/insert-application', (req, res) => {
     categoryID = req.body.categoryID;
     adminID = req.body.adminID;
     url = req.body.url;
-    let c = req.files;
-    let x = Object.keys(c);
-
-
+     c = req.files;
     iconName = icon.name;
 
     imagenames = image.name;
 
-    var imagenames = "[";
+    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,c);
+
+    res.send(result);
 
 
-    if (!Array.isArray(req.files.image)) {
-
-
-
-        image.mv("./public/test/" + imagenames, function (err) {
-            console.log('Error is: ', err);
-
-        });
-
-
-        imagenames += image.name + "]";
-
-        console.log(imagenames)
-
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
-        });
-        res.json({ res: "Application uploaded successfully" });
+ })
 
 
 
-    } else if (c.image.length <= 10) {
-        c.image.forEach(element => {
 
-            element.mv("./public/test/" + element.name, function (err) {
-            });
-            imagenames += element.name + ",";
 
-            icon.mv("./public/icons/" + iconName, function (err) {
-                console.log(err);
-            });
-        });
 
-        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
 
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
-        });
-        res.json({ res: "Application uploaded successfully" });
 
-    } else {
-        res.json({ res: "Cannot upload more than 10 images" });
-    }
 
-})
+
+
+// router.post('/insert-application', (req, res) => {
+
+//     name = req.body.name;
+//     longDesc = req.body.longDesc;
+//     shortDesc = req.body.shortDesc;
+//     icon = req.files.icon;
+//     developers = req.body.developers;
+//     image = req.files.image;
+//     won = req.body.won;
+//     categoryID = req.body.categoryID;
+//     adminID = req.body.adminID;
+//     url = req.body.url;
+//     let c = req.files;
+//     let x = Object.keys(c);
+
+
+//     iconName = icon.name;
+
+//     imagenames = image.name;
+
+//     var imagenames = "[";
+
+
+//     if (!Array.isArray(req.files.image)) {
+
+
+
+//         image.mv("./public/test/" + imagenames, function (err) {
+//             console.log('Error is: ', err);
+
+//         });
+
+
+//         imagenames += image.name + "]";
+
+//         console.log(imagenames)
+
+//         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
+//         });
+//         res.json({ res: "Application uploaded successfully" });
+
+
+
+//     } else if (c.image.length <= 10) {
+//         c.image.forEach(element => {
+
+//             element.mv("./public/test/" + element.name, function (err) {
+//             });
+//             imagenames += element.name + ",";
+
+//             icon.mv("./public/icons/" + iconName, function (err) {
+//                 console.log(err);
+//             });
+//         });
+
+//         imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+
+//         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
+//         });
+//         res.json({ res: "Application uploaded successfully" });
+
+//     } else {
+//         res.json({ res: "Cannot upload more than 10 images" });
+//     }
+
+// })
 
 module.exports = router;
