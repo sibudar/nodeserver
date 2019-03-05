@@ -1,18 +1,26 @@
+/*
+
+client controller
+
+All the logics and validations 
+from client router are done here
+*/
+
 
 const ClientModels = require('../models/client-model');
 const bcrypt = require('bcrypt');
 
 
-    async function Login(email, password){
-        var result = await ClientModels.Login(email, password);
 
-        return result;
+    async function Login(email, password){
+
+        //chek if parameters are not empty
+        if(email.length ==0 || password.length == 0){return "password and email is required"}
+        return await ClientModels.Login(email, password);
     }
 
     async function ActivateClient(id){
-        var result = await ClientModels.ActivateClient(id)
-
-        return result;
+        return await ClientModels.ActivateClient(id)
 
     }
     

@@ -56,16 +56,28 @@ async function updateCategory(id, name, active){
             return err;
         }
     }
-     
+
+    //insert category
+
+    async function addCategory(name, active){
+   
+        try{
+    
+          const sql = {sql: "CALL sp_addCategory(?,?)", values: [name, active]}
+          const sqlResult = await connection.query(sql);
+           
+          return sqlResult;
+           
+        }catch(err){
+          return err;
+    
+        }
+    
+    }
     
 
-
-
-
-
-
-
-
+     
+    
 
 
 //export functions
@@ -73,6 +85,7 @@ module.exports = {
     deleteCategory,
     updateCategory,
     displayCategory,
+    addCategory,
 
 
 

@@ -8,16 +8,10 @@ const CategoryCtr = require('../controller/category-controller');
 router.post('/add-category',async function(req, res) {
     var name = req.body.name;
     var active = req.body.active;
-    
-    var sql = "INSERT INTO category (name) VALUES ?";
-   
-    connection.query(sql, [[[name]]],function(err, result){
-        if (err) throw err;
-        console.log("1 record inserted");
-    res.send({res:"added"})
 
-    })
-    
+    var result = await CategoryCtr.addCategory(name, active);
+
+    res.send(result[0]);
     
     })
 

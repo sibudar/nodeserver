@@ -29,8 +29,8 @@ async function Login(email, password) {
 
 
 /**
- * 
- * @param {acivating client using clients id} id 
+ * activating client
+ * @param {required parameter(id)} id 
  */
 async function ActivateClient(id) {
 
