@@ -11,7 +11,7 @@ router.post('/add-category',async function(req, res) {
 
     var result = await CategoryCtr.addCategory(name, active);
 
-    res.send(result);
+    res.send(result[0]);
     
     })
 

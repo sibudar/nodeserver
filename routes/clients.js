@@ -1,5 +1,4 @@
 /*
-Author: Nonny
 
 Client Router
 
@@ -108,7 +107,6 @@ router.post('/delete-clients',async function(req, res){
 activating clients
 
 required parameter(id)
-returns a status as string
 */
 router.post('/activate-clients', async function(req, res){
       var id = req.body.id;

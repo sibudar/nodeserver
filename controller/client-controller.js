@@ -1,6 +1,6 @@
 /*
 
-client contyroller
+client controller
 
 All the logics and validations 
 from client router are done here

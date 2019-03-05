@@ -1,3 +1,9 @@
+/*
+   category controller
+
+   validations from category router are done here
+*/
+
 const categoryModels = require ('../models/category-model');
 
 
@@ -26,20 +32,6 @@ async function addCategory(name, active){
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
