@@ -1,7 +1,7 @@
 
-const mysql = require('mysql');
-const connection = require('../connectionDB/mysql');
-const bcrypt = require('bcrypt');
+const mysql = require("mysql");
+const connection = require("../connectionDB/mysql");
+const bcrypt = require("bcrypt");
 
 async function Login(email, password) {
 

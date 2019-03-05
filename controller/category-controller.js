@@ -4,7 +4,7 @@
    validations from category router are done here
 */
 
-const categoryModels = require ('../models/category-model');
+const categoryModels = require ("../models/category-model");
 
 
 async function deleteCategory(id){
@@ -28,8 +28,6 @@ async function displayCategory(){
 async function addCategory(name, active){
     var result = await categoryModels.addCategory(name, active)
     return result;
-
-
 
 }
 

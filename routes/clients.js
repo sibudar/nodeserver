@@ -8,10 +8,10 @@ validations and some other logics
 
 */
 
-const express = require('express');
-const ClientCtr = require('../controller/client-controller'); //controller
+const express = require("express");
+const ClientCtr = require("../controller/client-controller"); //controller
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 
 
@@ -23,7 +23,7 @@ required parameters(email,password)
 returns: login status as string 
 
 */
-router.post('/login', async function(req, res){
+router.post("/login", async function(req, res){
     
     var email =  req.body.email; // email parameter
     var password = req.body.password; //password parameter
@@ -43,7 +43,7 @@ Insert clients
 required parameters (firstname,lastname,organisation,password,active,adminID)
 returns status as a string
 */
-router.post('/add-clients',async function(req, res) {
+router.post("/add-clients",async function(req, res) {
         
     var firstname = req.body.firstname; //firstname : String
     var lastname = req.body.lastname; //lastname : string
@@ -62,7 +62,7 @@ router.post('/add-clients',async function(req, res) {
 
  
  //admin displaying all clients
-router.get('/display-clients',async function(req, res)  {
+router.get("/display-clients",async function(req, res)  {
     var result = await ClientCtr.displayClient(); //from client-controller
     res.send(result);
         
@@ -76,7 +76,7 @@ display single client
 required parameter (id)
 returns an array of objects
 */
-router.get('/getSingle-client/:id',async function(req, res){
+router.get("/getSingle-client/:id",async function(req, res){
  
       var id = (req.params.id); //id : string
       var result = await ClientCtr.singleClient(id); //from client controller
@@ -93,7 +93,7 @@ required parameters (id)
 returns status as a string
 
 */
-router.post('/delete-clients',async function(req, res){
+router.post("/delete-clients",async function(req, res){
       var id = req.body.id;
       var result = await ClientCtr.deleteClient(id);
 
@@ -108,7 +108,7 @@ activating clients
 
 required parameter(id)
 */
-router.post('/activate-clients', async function(req, res){
+router.post("/activate-clients", async function(req, res){
       var id = req.body.id;
 
       var result = await ClientCtr.ActivateClient(id);
@@ -124,7 +124,7 @@ update clients
 required parameters (id, lastname,organisation,email)
 returns a status as a string
 */
-router.post('/update-clients',async function(req, res){
+router.post("/update-clients",async function(req, res){
   var id = req.body.id; //id : integer
   var firstname = req.body.firstname; //firstname : string
     var lastname = req.body.lastname;//lastname : string

@@ -1,5 +1,5 @@
-const connection = require('../connectionDB/mysql');
-const mysql = require('mysql');
+const connection = require("../connectionDB/mysql");
+const mysql = require("mysql");
 
 
 //delete category
