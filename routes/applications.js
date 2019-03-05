@@ -166,12 +166,13 @@ router.post('/insert-apps',async function(req, res) {
     categoryID = req.body.categoryID;
     adminID = req.body.adminID;
     url = req.body.url;
-     c = req.files;
+    c = req.files;
+
     iconName = icon.name;
 
     imagenames = image.name;
 
-    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,c);
+    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,c,image);
 
     res.send(result);
 
