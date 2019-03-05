@@ -1,4 +1,13 @@
-const AppModels = require('../models/app-model');
+
+/*
+
+app controller
+
+All the logics and validations 
+from app router are done here
+*/
+
+const AppModels = require("../models/app-model");
 
 
 async function activateApp(id){

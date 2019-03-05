@@ -1,7 +1,7 @@
 
 
-const mysql = require('mysql');
-const connection = require('../connectionDB/mysql');
+const mysql = require("mysql");
+const connection = require("../connectionDB/mysql");
 
 
 //Activate Apps
@@ -260,6 +260,7 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
 
 }
 
+//export functions
 module.exports = {
     activateApp,
     displayApp,
