@@ -6,9 +6,8 @@ All the logics and validations
 from client router are done here
 */
 
-
-const ClientModels = require('../models/client-model');
-const bcrypt = require('bcrypt');
+const ClientModels = require("../models/client-model");
+const bcrypt = require("bcrypt");
 
 
 
@@ -69,5 +68,5 @@ module.exports = {
     updateClient,
     
 
-    // add more functions to export here
+    
 };

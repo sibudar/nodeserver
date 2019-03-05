@@ -1,7 +1,7 @@
 
-const mysql = require('mysql');
-const connection = require('../connectionDB/mysql');
-const bcrypt = require('bcrypt');
+const mysql = require("mysql");
+const connection = require("../connectionDB/mysql");
+const bcrypt = require("bcrypt");
 
 async function Login(email, password) {
 
@@ -30,7 +30,7 @@ async function Login(email, password) {
 
 /**
  * activating client
- * @param {required parameter(id)} id 
+ * @param {required} id 
  */
 async function ActivateClient(id) {
 
