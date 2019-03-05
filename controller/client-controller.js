@@ -69,5 +69,5 @@ module.exports = {
     updateClient,
     
 
-    // add more functions to export here
+    
 };

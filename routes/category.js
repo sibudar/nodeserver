@@ -1,3 +1,10 @@
+/*
+
+category router
+
+we handle all front-end http requests in this file
+*/
+
 const express = require('express');
 const router = express.Router();
 const CategoryCtr = require('../controller/category-controller');
@@ -26,12 +33,16 @@ router.get('/display-category',async function(req, res) {
    })
 
 
-   //delete category
+   /*
+   delete category
+
+   required parameter id
+   */
     
    router.post('/delete-category',async function(req, res){
 
-       var id = req.body.id;
-       var result = await CategoryCtr.deleteCategory(id);
+       var id = req.body.id;//id: string
+       var result = await CategoryCtr.deleteCategory(id);//from category controller
 
        res.send(result[0]);
        
@@ -41,9 +52,9 @@ router.get('/display-category',async function(req, res) {
 
     router.post('/update-category',async function(req, res){
 
-        var id = req.body.id;
-        var name = req.body.name;
-        var active = req.body.active;
+        var id = req.body.id; //id parameter
+        var name = req.body.name; //name parameter 
+        var active = req.body.active; //active parameter
 
         var result = await CategoryCtr.updateCategory(id, name, active);
  

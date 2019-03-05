@@ -34,7 +34,6 @@ async function addCategory(name, active){
 }
 
 
-
 //export functions
 module.exports = {
     deleteCategory,
