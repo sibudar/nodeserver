@@ -117,7 +117,6 @@ async function addClient(firstname, lastname, organization, password,email, acti
 
 }
 
-
 //updating client
 async function updateClient(id,firstname, lastname, organization, email){
      try{
