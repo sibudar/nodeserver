@@ -210,29 +210,34 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
 
     imagenames = image.name;
 
-    var imagenames = "[";
+    //var imagenames = "[";
+
+    if (!Array.isArray(image)) {
 
 
-    if (image.length === undefined) {
-
-      
         image.mv("./public/screenshots/" + imagenames, function (err) {
-            console.log('Error is: ', err);
+            if (err)
+                console.log('Error is: ', err);
 
         });
-        return { res: "Application did not upload" };
-        imagenames += image.name + "]";
+        
+        //imagenames += image.name + "]";
 
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c], function (err) {
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers,  "[" +imagenames + "]", won, categoryID, adminID, url, c], function (err) {
         });
-        return ({ res: "Single Application uploaded successfully" });
+        return ({ res: "Single image uploaded successfully" });
 
 
 
-    } else if (c.image.length <= 10) {
+
+    } else {
+        if (c.image.length >= 10)
+            return { res: "Cannot upload more than 10 images" };
+
         c.image.forEach(element => {
 
             element.mv("./public/screenshots/" + element.name, function (err) {
+                console.log(err)
             });
             imagenames += element.name + ",";
 
@@ -243,14 +248,13 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
 
         imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
 
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c], function (err) {
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, "[" +imagenames + "]", won, categoryID, adminID, url, c], function (err) {
             console.log(err)
         });
-        return { res: "Application uploaded successfully" };
+        return { res: "images uploaded successfully" };
 
-    } else {
-        return { res: "Cannot upload more than 10 images" };
     }
+   
 
 }
 
