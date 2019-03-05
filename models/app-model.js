@@ -204,10 +204,7 @@ async function newApp() {
     }
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c,image) {
-
-
-    //let x = Object.keys(c);
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c, image) {
 
     iconName = icon.name;
 
@@ -215,25 +212,20 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
 
     var imagenames = "[";
 
-    console.log()
 
-    if (Array.isArray( c)) {
+    if (image.length === undefined) {
 
-        console.log("one")
-
-        c.mv("./public/screenshots/" + imagenames, function (err) {
+      
+        image.mv("./public/screenshots/" + imagenames, function (err) {
             console.log('Error is: ', err);
 
         });
-
-
+        return { res: "Application did not upload" };
         imagenames += image.name + "]";
-
-        console.log(imagenames)
 
         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c], function (err) {
         });
-        res.json({ res: "Application uploaded successfully" });
+        return ({ res: "Single Application uploaded successfully" });
 
 
 
@@ -254,7 +246,7 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
         connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c], function (err) {
             console.log(err)
         });
-         return { res: "Application uploaded successfully" };
+        return { res: "Application uploaded successfully" };
 
     } else {
         return { res: "Cannot upload more than 10 images" };
