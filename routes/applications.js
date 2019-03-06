@@ -69,8 +69,6 @@ router.delete("/delete-app/:id", async function (req, res) {
 
 })
 
-
-
 /* 
 
 display applications according to category
@@ -152,12 +150,12 @@ returns a status as a string
 router.post("/update-icon", async function (req, res) {
 
     var id = req.body.id;
-    var icon = req.files.icon;
+    var icon = req.body.icon;
 
 
     var result = await AppCtr.updateIcon(id, icon);
 
-    res.send(result);
+    res.send(result[0]);
 
 
 })
@@ -175,7 +173,7 @@ router.post("/makeAppWin/:id", async function (req, res) {
 
     var result = await AppCtr.makeAppWin(id);
 
-    res.send(result);
+    res.send(result[0]);
 
 
 })
@@ -192,7 +190,7 @@ router.post("/makeAppLoose/:id", async function (req, res) {
 
     var result = await AppCtr.makeAppLoose(id);
 
-    res.send(result);
+    res.send(result[0]);
 
 
 })
@@ -214,7 +212,7 @@ router.post("/activate-apps", async function (req, res) {
 //Get all new applications
 router.get("/new-apps", async function (req, res) {
     var result = await AppCtr.newApp();//from app-controller
-    res.send(result);
+    res.send(result[0]);
 
 })
 
@@ -231,20 +229,16 @@ router.post("/insert-apps", async function (req, res) {
     name = req.body.name;// application name : string
     longDesc = req.body.longDesc;// long description : string
     shortDesc = req.body.shortDesc;// short description : string
-    icon = req.files.icon; // application icon : string
+    iconName = req.body.iconName; // application icon : string
     developers = req.body.developers;// developers : string
-    image = req.files.image; // image : string
+    imagenames = req.body.imagenames; // image : string
     won = req.body.won;// won : integer
     categoryID = req.body.categoryID;//categoryID : integer
     adminID = req.body.adminID;//adminID : integer
     url = req.body.url;//application url : string
-    c = req.files;
+    //c = req.files;
 
-    iconName = icon.name;
-
-    imagenames = image.name;
-
-    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c, image);
+    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url);
 
     res.send(result);
 

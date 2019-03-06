@@ -206,56 +206,55 @@ async function newApp() {
     }
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, c, image) {
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url) {
 
-    iconName = icon.name;
 
-    imagenames = image.name;
 
     //var imagenames = "[";
 
-    if (!Array.isArray(image)) {
+    //if (!Array.isArray(image)) {
 
 
-        image.mv("./public/screenshots/" + imagenames, function (err) {
-            if (err)
-                console.log('Error is: ', err);
+        // image.mv("./public/screenshots/" + imagenames, function (err) {
+        //     if (err)
+        //         console.log('Error is: ', err);
 
-        });
+        // });
         
-        //imagenames += image.name + "]";
+       //imagenames = image.name ;
 
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers,  "[" +imagenames + "]", won, categoryID, adminID, url, c], function (err) {
+        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers,  imagenames , won, categoryID, adminID, url], function (err) {
+            console.log(err);
         });
-        return ({ res: "Single image uploaded successfully" });
+        return ({ res: "Application uploaded successfully" });
 
 
 
 
-    } else {
-        if (c.image.length >= 10)
-            return { res: "Cannot upload more than 10 images" };
+    // } else {
+    //     if (c.image.length >= 10)
+    //         return { res: "Cannot upload more than 10 images" };
 
-        c.image.forEach(element => {
+    //     c.image.forEach(element => {
 
-            element.mv("./public/screenshots/" + element.name, function (err) {
-                console.log(err)
-            });
-            imagenames += element.name + ",";
+    //         // element.mv("./public/screenshots/" + element.name, function (err) {
+    //         //     console.log(err)
+    //         // });
+    //         imagenames += element.name + ",";
 
-            icon.mv("./public/icons/" + iconName, function (err) {
-                console.log(err);
-            });
-        });
+    //         icon.mv("./public/icons/" + iconName, function (err) {
+    //             console.log(err);
+    //         });
+    //     });
 
-        imagenames = (imagenames.substring(0, imagenames.length - 1)) + "]"
+    //     imagenames = (imagenames.substring(0, imagenames.length - 1)) 
+       
+    //     connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, "" +imagenames + "", won, categoryID, adminID, url, c], function (err) {
+    //         console.log(err)
+    //     });
+    //     return { res: "images uploaded successfully" };
 
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, "[" +imagenames + "]", won, categoryID, adminID, url, c], function (err) {
-            console.log(err)
-        });
-        return { res: "images uploaded successfully" };
-
-    }
+    // }
    
 
 }
