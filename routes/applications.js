@@ -130,9 +130,9 @@ returns a status as a string
 */
 router.post("/update-desc", async function (req, res) {
 
-    var id = req.body.id;
-    var longDesc = req.body.longDesc;
-    var shortDesc = req.body.shortDesc;
+    var id = req.body.id; // id : integer
+    var longDesc = req.body.longDesc; // long description : string
+    var shortDesc = req.body.shortDesc; //short description : string
 
 
     var result = await AppCtr.updateDescriptions(id, longDesc, shortDesc);
@@ -228,16 +228,16 @@ returns status as a string
 router.post("/insert-apps", async function (req, res) {
 
 
-    name = req.body.name;
-    longDesc = req.body.longDesc;
-    shortDesc = req.body.shortDesc;
-    icon = req.files.icon;
-    developers = req.body.developers;
-    image = req.files.image;
-    won = req.body.won;
-    categoryID = req.body.categoryID;
-    adminID = req.body.adminID;
-    url = req.body.url;
+    name = req.body.name;// application name : string
+    longDesc = req.body.longDesc;// long description : string
+    shortDesc = req.body.shortDesc;// short description : string
+    icon = req.files.icon; // application icon : string
+    developers = req.body.developers;// developers : string
+    image = req.files.image; // image : string
+    won = req.body.won;// won : integer
+    categoryID = req.body.categoryID;//categoryID : integer
+    adminID = req.body.adminID;//adminID : integer
+    url = req.body.url;//application url : string
     c = req.files;
 
     iconName = icon.name;
