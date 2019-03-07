@@ -215,18 +215,18 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
     //if (!Array.isArray(image)) {
 
 
-        // image.mv("./public/screenshots/" + imagenames, function (err) {
-        //     if (err)
-        //         console.log('Error is: ', err);
+    // image.mv("./public/screenshots/" + imagenames, function (err) {
+    //     if (err)
+    //         console.log('Error is: ', err);
 
-        // });
-        
-       //imagenames = image.name ;
+    // });
 
-        connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers,  imagenames , won, categoryID, adminID, url], function (err) {
-            console.log(err);
-        });
-        return ({ res: "Application uploaded successfully" });
+    //imagenames = image.name ;
+
+    connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
+        console.log(err);
+    });
+    return ({ res: "Application uploaded successfully" });
 
 
 
@@ -248,14 +248,14 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
     //     });
 
     //     imagenames = (imagenames.substring(0, imagenames.length - 1)) 
-       
+
     //     connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, "" +imagenames + "", won, categoryID, adminID, url, c], function (err) {
     //         console.log(err)
     //     });
     //     return { res: "images uploaded successfully" };
 
     // }
-   
+
 
 }
 
