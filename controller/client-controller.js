@@ -8,13 +8,14 @@ from client router are done here
 
 const ClientModels = require("../models/client-model");
 const bcrypt = require("bcrypt");
+const res = require("../helpers/http-response");
 
 
 
     async function Login(email, password){
 
         //chek if parameters are not empty
-        if(email.length ==0 || password.length == 0){return "password and email is required"}
+        if(email.length ==0 || password.length == 0){return res(404,"password and email is required")}
         return await ClientModels.Login(email, password);
     }
 

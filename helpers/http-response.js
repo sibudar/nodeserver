@@ -6,7 +6,7 @@ to make life easier for front-end guys
 source: https://www.restapitutorial.com/httpstatuscodes.html
 
 
-format for returnign a nice http response
+format for returning a nice http response
 
 {
     status: 200,
