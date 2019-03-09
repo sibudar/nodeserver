@@ -41,9 +41,9 @@ async function ActivateClient(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
+        return res(200,"success",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
 
     }
 }
@@ -106,12 +106,12 @@ async function addClient(firstname, lastname, organization, password,email, acti
     try{
 
       const sql = {sql: "CALL sp_addClients(?,?,?,?,?,?,?)", values: [firstname, lastname, organization, password, email, active, adminID]}
-      const sqlResult = await connection.query(sql);
+      await connection.query(sql);
        
-      return sqlResult;
+      return res(200,"client added");
        
     }catch(err){
-      return err;
+      return res(400,err);
 
     }
 

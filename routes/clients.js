@@ -29,7 +29,7 @@ router.post("/login", async function(req, res){
 
     var result = await ClientCtr.Login(email,password); //passing values to the Controller
 
-    res.send(result); //send back to the front-end
+    res.status(result.status).send(result); //send back to the front-end
    
 })
 
@@ -54,7 +54,8 @@ router.post("/add-clients",async function(req, res) {
 
     var result = await ClientCtr.addClient(firstname, lastname, organization, password,email, active, adminID);
 
-    res.send(result);
+
+    res.status(result.status).send(result);
 
 
  })
