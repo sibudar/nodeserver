@@ -10,6 +10,7 @@ const ClientModels = require("../models/client-model");
 const bcrypt = require("bcrypt");
 const res = require("../helpers/http-response");
 const validator = require("validator");
+const mailer = require('../helpers/emailer');
 
 
 
@@ -74,6 +75,17 @@ const validator = require("validator");
 
 
        var result = await ClientModels.addClient(firstname, lastname, organization, password,email, active, adminID)
+
+
+       //if client added successfully, send an email
+       if(result.status == 200){
+           //send mail
+           var subject = "Congratulations";
+           var message = "You have been added to xpo, please login here www.xpo.co.za/login"; //just an example
+
+           //mail.send_mail(subject,email,message);
+       }
+
        return result;
 
    }

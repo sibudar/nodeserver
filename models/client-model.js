@@ -108,6 +108,8 @@ async function addClient(firstname, lastname, organization, password,email, acti
       const sql = {sql: "CALL sp_addClients(?,?,?,?,?,?,?)", values: [firstname, lastname, organization, password, email, active, adminID]}
       await connection.query(sql);
        
+
+      
       return res(200,"client added");
        
     }catch(err){
