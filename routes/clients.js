@@ -55,7 +55,7 @@ router.post("/add-clients",async function(req, res) {
     var result = await ClientCtr.addClient(firstname, lastname, organization, password,email, active, adminID);
 
 
-    res.status(result.status).send(result);
+    res.status(result.status).send(result);//send back to the front-end
 
 
  })
@@ -64,7 +64,7 @@ router.post("/add-clients",async function(req, res) {
  //admin displaying all clients
 router.get("/display-clients",async function(req, res)  {
     var result = await ClientCtr.displayClient(); //from client-controller
-    res.send(result);
+    res.status(result.status).send(result);
         
 }) 
 
@@ -81,7 +81,7 @@ router.get("/getSingle-client/:id",async function(req, res){
       var id = (req.params.id); //id : string
       var result = await ClientCtr.singleClient(id); //from client controller
 
-    res.send(result[0]);
+    res.status(result.status).send(result);
 
 })
           
@@ -97,7 +97,7 @@ router.post("/delete-clients",async function(req, res){
       var id = req.body.id;
       var result = await ClientCtr.deleteClient(id);
 
-      res.send(result[0]);
+      res.status(result.status).send(result);
       
     })
 
@@ -110,10 +110,10 @@ required parameter(id)
 */
 router.post("/activate-clients", async function(req, res){
       var id = req.body.id;
-
+      
       var result = await ClientCtr.ActivateClient(id);
 
-    res.send(result[0]);
+    res.status(result.status).send(result);
   
   }) 
   
@@ -133,7 +133,7 @@ router.post("/update-clients",async function(req, res){
 
     var result = await ClientCtr.updateClient(id,firstname, lastname, organization, email);
 
-    res.send(result[0]);
+    res.status(result.status).send(result);
     
 })
 

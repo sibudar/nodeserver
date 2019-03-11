@@ -26,10 +26,10 @@ const mailer = require('../helpers/emailer');
 
 
     async function ActivateClient(id){
-        if(!validator.isInt(id)) {return res(406,"only integer allowed")};
-        if(validator.isEmpty(id)){return res(204,"id is required")};
+        //if(!validator.isInt(id)) {return res(406,"only integer allowed")};
+        //if(validator.isEmpty(id)){return res(204,"id is required")};
         
-        return await ClientModels.ActivateClient(id)
+        return await ClientModels.ActivateClient(id);
 
     }
     
@@ -58,17 +58,17 @@ const mailer = require('../helpers/emailer');
    async function addClient(firstname, lastname, organization, password,email, active, adminID){
 
     //validation
-        if(validator.isEmpty(firstname)){return res(204,"firstname is required")};
-        if(validator.isEmpty(lastname)){return res(204,"surname is required")};
-        if(validator.isEmpty(organization)){return res(204,"organization is required")};
-        if(validator.isEmpty(password)){return res(204,"password is required")};
-        if(validator.isEmpty(email)){return res(204,"email is required")};
-        if(validator.isEmpty(active)){return res(204,"active is required")};
-        if(validator.isEmpty(adminID)){return res(204,"adminID is required")};
+        // if(validator.isEmpty(firstname)){return res(204,"firstname is required")};
+        // if(validator.isEmpty(lastname)){return res(204,"surname is required")};
+        // if(validator.isEmpty(organization)){return res(204,"organization is required")};
+        // if(validator.isEmpty(password)){return res(204,"password is required")};
+        // if(validator.isEmpty(email)){return res(204,"email is required")};
+        // if(validator.isEmpty(active)){return res(204,"active is required")};
+        // if(validator.isEmpty(adminID)){return res(204,"adminID is required")};
 
-        if(!validator.isEmail(email)){return res(204,"email is not valid")};
-        if(!validator.isInt(active)){return res(204,"active must be an integer")};
-        if(!validator.isInt(adminID)){return res(204,"adminID must be an integer")};
+        // if(!validator.isEmail(email)){return res(204,"email is not valid")};
+        // if(!validator.isInt(active)){return res(204,"active must be an integer")};
+        // if(!validator.isInt(adminID)){return res(204,"adminID must be an integer")};
 
 
 
