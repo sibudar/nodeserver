@@ -35,13 +35,14 @@ async function Login(email, password) {
 async function ActivateClient(id) {
 
     try {
-        let sql = {
-            sql: "CALL sp_activateClients(?)",
-            values: [id]
-        }
+         let sql = {
+             sql: "CALL sp_activateClients(?)",
+             values: [id]
+         }
+    
         const sqlResult = await connection.query(sql);
 
-        return res(200,"success",sqlResult);
+        return res(200, "success", sqlResult);
     } catch (err) {
         return res(400,err);
 
@@ -56,10 +57,10 @@ async function displayClient() {
         let sql = { sql: "CALL sp_displayClients" }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
+        return res(200, "client displayed",sqlResult);
 
     } catch (err) {
-        return err;
+        return res(404,err);
     }
 }
 
@@ -71,10 +72,10 @@ async function singleClient(id) {
         const sql = { sql: "CALL sp_singleClient(?)", values: [id] }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
+        return res(200,"client displayed",sqlResult);
 
     } catch (err) {
-        return err;
+        return res(400,err);
     }
 }
 
@@ -89,11 +90,11 @@ try{
        }
       const sqlResult = await connection.query(sql);
      
-      return sqlResult;
+      return res(200, "client deleted",sqlResult);
 
 }catch(err){
 
-    return err;
+    return res(400,err);
 
 }
 
@@ -126,10 +127,10 @@ async function updateClient(id,firstname, lastname, organization, email){
         const sql = {sql:"CALL sp_updateClients(?,?,?,?,?)", values:[id,firstname, lastname, organization, email]}
         const sqlResult = await connection.query(sql);
 
-    return sqlResult;
+    return res(200, "client updated", sqlResult);
 
      }catch(err){
-         return err;
+         return res(400,err);
  }
 
 }
