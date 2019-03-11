@@ -28,10 +28,7 @@ async function Login(email, password) {
 }
 
 
-/**
- * activating client
- * @param {required} id 
- */
+
 async function ActivateClient(id) {
 
     try {
