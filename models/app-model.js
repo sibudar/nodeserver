@@ -2,6 +2,7 @@
 
 const mysql = require("mysql");
 const connection = require("../connectionDB/mysql");
+const res = require("../helpers/http-response");
 
 
 //Activate Apps
@@ -14,12 +15,14 @@ async function activateApp(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
+        
+        return res(200,"application activated successfully",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
 
     }
 }
+
 
 //Display all apps
 async function displayApp() {
@@ -28,10 +31,25 @@ async function displayApp() {
         let sql = { sql: "CALL sp_DisplayAllApps" }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+       
+        return res(200,"All applications displayed",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
+    }
+}
+
+//Display Bottom 3 apps
+async function bottom3() {
+
+    try {
+        let sql = { sql: "CALL sp_Bottom3" }
+        const sqlResult = await connection.query(sql);
+
+        return res(200,"Top3 applications",sqlResult);
+    } catch (err) {
+        return res(400,err);
+
     }
 }
 
@@ -42,10 +60,10 @@ async function displayActiveApps() {
         let sql = { sql: "CALL sp_DisplayActiveApps" }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+        return res(200,"Active applications displayed",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 //Get single app
@@ -55,10 +73,11 @@ async function singleApp(id) {
         const sql = { sql: "CALL sp_SingleApp(?)", values: [id] }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
 
+        return res(200,"single  application displayed",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -72,11 +91,10 @@ async function deleteApp(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
 
+        return res(200,"application deleted successfully",sqlResult);
     } catch (err) {
-
-        return err;
+        return res(400,err);
 
     }
 
@@ -91,10 +109,10 @@ async function categoryApp(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+        return res(200,"applications according to category",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -107,10 +125,10 @@ async function wonApp(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+        return res(200,"applications that won",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -123,10 +141,11 @@ async function updateAppInfo(id, name, developers, categoryID) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+    
+        return res(200,"application info updated successfully",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -139,10 +158,10 @@ async function updateDescriptions(id, longDesc, shortDesc) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+        return res(200,"application descriptions updated successfully",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -155,10 +174,10 @@ async function updateIcon(id, icon) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
-
+        return res(200,"application icon updated successfully",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 async function makeAppWin(id) {
@@ -170,10 +189,10 @@ async function makeAppWin(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
-
+        return res(200,"The application won",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -186,10 +205,10 @@ async function makeAppLoose(id) {
         }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult;
-
+        return res(200,"The application lost",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
@@ -199,62 +218,21 @@ async function newApp() {
         let sql = { sql: "CALL sp_SelectNewApps" }
         const sqlResult = await connection.query(sql);
 
-        return sqlResult
 
+        return res(200,"new applications",sqlResult);
     } catch (err) {
-        return err;
+        return res(400,err);
+
     }
 }
 
 async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url) {
-
-
-
-    //var imagenames = "[";
-
-    //if (!Array.isArray(image)) {
-
-
-    // image.mv("./public/screenshots/" + imagenames, function (err) {
-    //     if (err)
-    //         console.log('Error is: ', err);
-
-    // });
-
-    //imagenames = image.name ;
 
     connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
         console.log(err);
     });
     return ({ res: "Application uploaded successfully" });
 
-
-
-
-    // } else {
-    //     if (c.image.length >= 10)
-    //         return { res: "Cannot upload more than 10 images" };
-
-    //     c.image.forEach(element => {
-
-    //         // element.mv("./public/screenshots/" + element.name, function (err) {
-    //         //     console.log(err)
-    //         // });
-    //         imagenames += element.name + ",";
-
-    //         icon.mv("./public/icons/" + iconName, function (err) {
-    //             console.log(err);
-    //         });
-    //     });
-
-    //     imagenames = (imagenames.substring(0, imagenames.length - 1)) 
-
-    //     connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, "" +imagenames + "", won, categoryID, adminID, url, c], function (err) {
-    //         console.log(err)
-    //     });
-    //     return { res: "images uploaded successfully" };
-
-    // }
 
 
 }
@@ -275,4 +253,5 @@ module.exports = {
     newApp,
     addApp,
     displayActiveApps,
+    bottom3,
 };

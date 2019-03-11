@@ -15,6 +15,7 @@ const app = express();
 const AppCtr = require("../controller/app-controller");
 
 
+
 router.get("/nonny", (req, res, next) => {
     res.status(200).json({
         message: 'added nonny'
@@ -26,14 +27,24 @@ router.get("/nonny", (req, res, next) => {
 
 router.get("/display-apps", async function (req, res) {
     var result = await AppCtr.displayApp();//from app-controller
-    res.send(result[0]);
+
+    res.send(result);
+
+})
+
+router.get("/bottom3", async function (req, res) {
+    var result = await AppCtr.bottom3();//from app-controller
+    res.send(result);
 
 })
 
 //Get active applications
 router.get("/active-apps", async function (req, res) {
+    var id = req.body.id;
     var result = await AppCtr.displayActiveApps();//from app-controller
-    res.send(result[0]);
+    res.send(result);
+
+
 
 })
 
@@ -49,7 +60,7 @@ router.get("/getSingleApp/:id", async function (req, res) {
     var id = (req.params.id);
     var result = await AppCtr.singleApp(id);
 
-    res.send(result[0]);
+    res.send(result);
 
 })
 
@@ -65,9 +76,10 @@ router.delete("/delete-app/:id", async function (req, res) {
     var id = (req.params.id);
     var result = await AppCtr.deleteApp(id);
 
-    res.send(result[0]);
+    res.send(result);
 
 })
+
 
 /* 
 
@@ -80,7 +92,7 @@ router.get("/cat/:id", async function (req, res) {
 
     var id = (req.params.id);
     var result = await AppCtr.categoryApp(id);
-    res.send(result[0]);
+    res.send(result);
 
 })
 
@@ -95,7 +107,7 @@ router.get("/won/:id", async function (req, res) {
 
     var id = (req.params.id);
     var result = await AppCtr.wonApp(id);
-    res.send(result[0]);
+    res.send(result);
 
 })
 
@@ -115,7 +127,7 @@ router.post("/update-info", async function (req, res) {
 
     var result = await AppCtr.updateAppInfo(id, name, developers, categoryID);
 
-    res.send(result[0]);
+    res.send(result);
 
 
 })
@@ -135,7 +147,8 @@ router.post("/update-desc", async function (req, res) {
 
     var result = await AppCtr.updateDescriptions(id, longDesc, shortDesc);
 
-    res.send(result[0]);
+    res.send(result);
+
 
 
 })
@@ -155,8 +168,7 @@ router.post("/update-icon", async function (req, res) {
 
     var result = await AppCtr.updateIcon(id, icon);
 
-    res.send(result[0]);
-
+    res.send(result);
 
 })
 
@@ -173,7 +185,7 @@ router.post("/makeAppWin/:id", async function (req, res) {
 
     var result = await AppCtr.makeAppWin(id);
 
-    res.send(result[0]);
+    res.send(result);
 
 
 })
@@ -190,7 +202,7 @@ router.post("/makeAppLoose/:id", async function (req, res) {
 
     var result = await AppCtr.makeAppLoose(id);
 
-    res.send(result[0]);
+    res.send(result);
 
 
 })
@@ -205,14 +217,16 @@ router.post("/activate-apps", async function (req, res) {
 
     var result = await AppCtr.activateApp(id);
 
-    res.send(result[0]);
+    res.send(result);
+
+
 
 })
 
 //Get all new applications
 router.get("/new-apps", async function (req, res) {
     var result = await AppCtr.newApp();//from app-controller
-    res.send(result[0]);
+    res.send(result);
 
 })
 
@@ -241,7 +255,6 @@ router.post("/insert-apps", async function (req, res) {
     var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url);
 
     res.send(result);
-
 
 })
 

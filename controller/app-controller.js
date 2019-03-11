@@ -8,9 +8,11 @@ from app router are done here
 */
 
 const AppModels = require("../models/app-model");
+//const validator = require("validator");
 
 
 async function activateApp(id){
+    
     var result = await AppModels.activateApp(id)
 
     return result;
@@ -19,6 +21,13 @@ async function activateApp(id){
 
 async function displayApp(){
     var result = await AppModels.displayApp()
+
+    return result;
+
+}
+
+async function bottom3(){
+    var result = await AppModels.bottom3()
 
     return result;
 
@@ -106,5 +115,6 @@ module.exports = {
    makeAppLoose,
    newApp,
    addApp,    
-   displayActiveApps,                                                                  
+   displayActiveApps,  
+   bottom3,                                                                
 };
