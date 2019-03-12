@@ -226,7 +226,7 @@ async function newApp() {
     }
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath) {
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,screenshotspath, iconspath) {
 
 
     try{

@@ -93,9 +93,9 @@ async function newApp(id){
     return result;
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url){
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID,  screenshotspath, iconspath, url){
    
-    var result = await AppModels.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url)
+    var result = await AppModels.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, screenshotspath, iconspath,url)
     return result;
 
 }
