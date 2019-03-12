@@ -13,18 +13,15 @@ const send_mail = require('../helpers/emailer');
 const check = require('check-types');
 
 
-const validate = function(data) {
+// const validate = function(data) {
 
-    if (!isNaN(data) && data != '' && data == undefined) {
-        return true;
-    } else {
-        return false;
-    }
+//     if (!isNaN(data) && data != '' && data == undefined) {
+//         return true;
+//     } else {
+//         return false;
+//     }
 
-}
-
-
-
+// }
     async function Login(email, password){
 
         //chek if parameters are not empty
@@ -55,12 +52,17 @@ const validate = function(data) {
 
 
    async function singleClient(id){
+
        var result = await ClientModels.singleClient(id)
        return result;
    }
 
 
    async function deleteClient(id){
+
+    if(check.not.integer(id)){return res(406, "only integer allowed")};
+    if(id.length==0){return res(404, "id is required")};
+
     var result = await ClientModels.deleteClient(id)
     return result;
 
@@ -82,12 +84,7 @@ const validate = function(data) {
         if(check.not.integer(active)){return res(400,"active must be an integer")};
         if(check.not.integer(adminID)){return res(400,"adminID must be an integer")};
 
-
-
-
-
        var result = await ClientModels.addClient(firstname, lastname, organization, password,email, active, adminID)
-
 
        //if client added successfully, send an email
        if(result.status == 200){
@@ -104,6 +101,15 @@ const validate = function(data) {
 
 
    async function updateClient(id,firstname, lastname, organization, email){
+
+        if(id.length==0){return res(404, "id is required")};
+        if(firstname.trim().length == 0){return res(404,"firstname is required")};
+        if(lastname.trim().length == 0 ){return res(404,"surname is required")};
+        if(organization.trim().length ==0 ){return res(404,"organization is required")};
+        if(email.trim().length ==0 ){return res(404,"email is required")};
+
+        if(!isEmail(email)){return res(400,"email is not valid")};
+
        var result = await ClientModels.updateClient(id,firstname, lastname, organization, email)
        return result;
 
