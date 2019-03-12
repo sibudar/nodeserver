@@ -28,13 +28,13 @@ router.get("/nonny", (req, res, next) => {
 router.get("/display-apps", async function (req, res) {
     var result = await AppCtr.displayApp();//from app-controller
 
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
 router.get("/bottom3", async function (req, res) {
     var result = await AppCtr.bottom3();//from app-controller
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
@@ -42,7 +42,7 @@ router.get("/bottom3", async function (req, res) {
 router.get("/active-apps", async function (req, res) {
     var id = req.body.id;
     var result = await AppCtr.displayActiveApps();//from app-controller
-    res.send(result);
+    res.status(result.status).send(result);
 
 
 
@@ -60,7 +60,7 @@ router.get("/getSingleApp/:id", async function (req, res) {
     var id = (req.params.id);
     var result = await AppCtr.singleApp(id);
 
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
@@ -76,7 +76,7 @@ router.delete("/delete-app/:id", async function (req, res) {
     var id = (req.params.id);
     var result = await AppCtr.deleteApp(id);
 
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
@@ -92,7 +92,7 @@ router.get("/cat/:id", async function (req, res) {
 
     var id = (req.params.id);
     var result = await AppCtr.categoryApp(id);
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
@@ -107,7 +107,7 @@ router.get("/won/:id", async function (req, res) {
 
     var id = (req.params.id);
     var result = await AppCtr.wonApp(id);
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
@@ -127,8 +127,7 @@ router.post("/update-info", async function (req, res) {
 
     var result = await AppCtr.updateAppInfo(id, name, developers, categoryID);
 
-    res.send(result);
-
+    res.status(result.status).send(result);
 
 })
 
@@ -182,7 +181,7 @@ required parameter(id)
 router.post("/makeAppWin/:id", async function (req, res) {
    
 
-    
+
     var id = (req.params.id);
 
     var result = await AppCtr.makeAppWin(id);
