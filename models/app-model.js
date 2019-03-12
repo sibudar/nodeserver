@@ -226,16 +226,26 @@ async function newApp() {
     }
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url) {
-
-    connection.query("call sp_InsertApplications(?,?,?,?,?,?,?,?,?,?)", [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url], function (err) {
-        console.log(err);
-    });
-    return ({ res: "Application uploaded successfully" });
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath) {
 
 
+    try{
+
+        const sql = {sql: "CALL sp_InsertApplications(?,?,?,?,?,?,?,?,?,?,?,?)", values: [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath]}
+        await connection.query(sql);
+         
+  
+        
+        return res(200,"app added");
+         
+      }catch(err){
+        return res(400,err);
+  
+      }
 
 }
+
+
 
 //export functions
 module.exports = {
