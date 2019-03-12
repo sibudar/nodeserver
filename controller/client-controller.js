@@ -13,15 +13,15 @@ const send_mail = require('../helpers/emailer');
 const check = require('check-types');
 
 
-const validate = function(data) {
+// const validate = function(data) {
 
-    if (!isNaN(data) && data != '' && data == undefined) {
-        return true;
-    } else {
-        return false;
-    }
+//     if (!isNaN(data) && data != '' && data == undefined) {
+//         return true;
+//     } else {
+//         return false;
+//     }
 
-}
+// }
 
 
 

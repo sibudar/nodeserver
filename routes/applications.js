@@ -180,7 +180,9 @@ make an application win
 required parameter(id)
 */
 router.post("/makeAppWin/:id", async function (req, res) {
+   
 
+    
     var id = (req.params.id);
 
     var result = await AppCtr.makeAppWin(id);
@@ -256,7 +258,7 @@ router.post("/insert-apps", async function (req, res) {
 
     var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath);
 
-    res.send(result);
+    res.status(result.status).send(result);
 
 })
 
