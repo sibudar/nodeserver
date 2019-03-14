@@ -149,12 +149,12 @@ async function updateAppInfo(id, name, developers, categoryID) {
     }
 }
 
-async function updateDescriptions(id, longDesc, shortDesc) {
+async function updateDescriptions(id, longDesc, shortDesc, url) {
 
     try {
         let sql = {
-            sql: "CALL sp_UpdateDescriptions(?,?,?)",
-            values: [id, longDesc, shortDesc]
+            sql: "CALL sp_UpdateDescriptions(?,?,?,?)",
+            values: [id, longDesc, shortDesc, url]
         }
         const sqlResult = await connection.query(sql);
 

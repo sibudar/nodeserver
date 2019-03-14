@@ -142,9 +142,9 @@ router.post("/update-desc", async function (req, res) {
     var id = req.body.id; // id : integer
     var longDesc = req.body.longDesc; // long description : string
     var shortDesc = req.body.shortDesc; //short description : string
+    var url = req.body.url;// application url:string
 
-
-    var result = await AppCtr.updateDescriptions(id, longDesc, shortDesc);
+    var result = await AppCtr.updateDescriptions(id, longDesc, shortDesc, url);
 
     res.send(result);
 

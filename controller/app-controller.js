@@ -86,17 +86,18 @@ async function updateAppInfo(id,name,developers,categoryID){
     return result;
 }
 
-async function updateDescriptions(id,longDesc,shortDesc ){
+async function updateDescriptions(id,longDesc,shortDesc ,url){
     
     if(id.length ==0){return res(404,"id is required")};
     if(longDesc.trim().length == 0){return res(404,"long description is required")};
     if(shortDesc.trim().length ==0 ){return res(404,"short description is required")};
+    if(url.trim().length ==0 ){return res(404,"url is required")};
     
     if(check.not.integer(id)){return res(400,"id must be an integer")};
     if(check.not.string(longDesc)){return res(400,"long description must be an integer")};
     if(check.not.string(shortDesc)){return res(400,"short description must be a string")};
 
-    var result = await AppModels.updateDescriptions(id,longDesc,shortDesc)
+    var result = await AppModels.updateDescriptions(id,longDesc,shortDesc,url)
     return result;
 }
 
