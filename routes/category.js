@@ -18,7 +18,7 @@ router.post("/add-category",async function(req, res) {
 
     var result = await CategoryCtr.addCategory(name, active);
 
-    res.send(result[0]);
+    res.status(result.status).send(result); //send back to the front-end
     
     })
 
@@ -28,7 +28,7 @@ router.get("/display-category",async function(req, res) {
 
      var result = await CategoryCtr.displayCategory();
  
-     res.send(result[0]);
+     res.status(result.status).send(result);
 
    })
 
@@ -44,7 +44,7 @@ router.get("/display-category",async function(req, res) {
        var id = req.body.id;//id: string
        var result = await CategoryCtr.deleteCategory(id);//from category controller
 
-       res.send(result[0]);
+       res.status(result.status).send(result);
        
     })
 
@@ -58,7 +58,7 @@ router.get("/display-category",async function(req, res) {
 
         var result = await CategoryCtr.updateCategory(id, name, active);
  
-        res.send(result[0]);
+        res.status(result.status).send(result);
         
      })
 
