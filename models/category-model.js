@@ -87,7 +87,4 @@ module.exports = {
     displayCategory,
     addCategory,
 
-
-
-
 };
