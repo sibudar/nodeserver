@@ -1,3 +1,4 @@
+const res = require("../helpers/http-response")
 const connection = require("../connectionDB/mysql");
 const mysql = require("mysql");
 
@@ -13,11 +14,11 @@ async function deleteCategory(id) {
            }
           const sqlResult = await connection.query(sql);
          
-          return sqlResult;
+          return res(200, "successful", sqlResult);
     
     }catch(err){
     
-        return err;
+        return res(400,err);
     
     }
     
@@ -32,11 +33,11 @@ async function updateCategory(id, name, active){
         const sql = {sql:"CALL sp_updateCategory(?,?,?)", values:[id,name, active]}
         const sqlResult = await connection.query(sql);
      
-        return sqlResult;
+        return res(200, "successfully", sqlResult);
 
     }catch(err){
 
-        return err;
+        return res(400,err);
     }
 
 
@@ -50,10 +51,10 @@ async function updateCategory(id, name, active){
             let sql = { sql: "CALL sp_displayCategory" }
             const sqlResult = await connection.query(sql);
     
-            return sqlResult
+            return res(200, "success",sqlResult);
     
         } catch (err) {
-            return err;
+            return res(400,err);
         }
     }
 
@@ -66,10 +67,10 @@ async function updateCategory(id, name, active){
           const sql = {sql: "CALL sp_addCategory(?,?)", values: [name, active]}
           const sqlResult = await connection.query(sql);
            
-          return sqlResult;
+          return res(200, "successful", sqlResult);
            
         }catch(err){
-          return err;
+          return res(400,err);
     
         }
     

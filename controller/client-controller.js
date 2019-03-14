@@ -9,8 +9,8 @@ from client router are done here
 const ClientModels = require("../models/client-model");
 const res = require("../helpers/http-response");
 const {isEmail} = require("validator");
-const send_mail = require('../helpers/emailer');
-const check = require('check-types');
+const send_mail = require("../helpers/emailer");
+const check = require("check-types");
 
 
 // const validate = function(data) {
