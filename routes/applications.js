@@ -179,7 +179,7 @@ make an application win
 required parameter(id)
 */
 router.post("/makeAppWin/:id", async function (req, res) {
-   
+
 
 
     var id = (req.params.id);
@@ -251,7 +251,7 @@ router.post("/insert-apps", async function (req, res) {
     categoryID = req.body.categoryID;//categoryID : integer
     adminID = req.body.adminID;//adminID : integer
     url = req.body.url;//application url : string
-    screenshotspath = req.body.screenshotspath ;
+    screenshotspath = req.body.screenshotspath;
     iconspath = req.body.iconspath;
     //c = req.files;
 
