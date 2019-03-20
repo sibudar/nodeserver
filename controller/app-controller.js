@@ -32,6 +32,18 @@ async function displayApp(){
 
 }
 
+async function monthApp(dateCreated){
+    
+    if(dateCreated.length==0){return res(404,"date created is required")};
+
+    if(check.not.integer(dateCreated)){return res(406,"date created must be an integer")};
+    
+    var result = await AppModels.monthApp(dateCreated)
+
+    return result;
+
+}
+
 async function bottom3(){
     var result = await AppModels.bottom3()
 
@@ -133,7 +145,7 @@ async function newApp(id){
     return result;
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID,  screenshotspath, iconspath, url){
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID,  screenshotspath, iconspath, url, apk, privateKey, publicKey, platform){
    
         if(name.trim().length == 0){return res(404,"application name is required")};
         if(longDesc.trim().length == 0 ){return res(404,"application long description is required")};
@@ -145,7 +157,12 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
         if(adminID.length ==0){return res(404,"adminID is required")};
         if(screenshotspath.length ==0){return res(404,"screenshotspath is required")};
         if(iconspath.length ==0){return res(404,"iconspath is required")};
-        if(url.length ==0){return res(404,"url is required")};
+        if(apk.length ==0){return res(404,"url is required")};
+        ///if(privateKey.length ==0){return res(404,"privateKey is required")};
+        if(publicKey.length ==0){return res(404,"publicKey is required")};
+        if(platform.length ==0){return res(404,"platform is required")};
+        
+        
 
         
         if(check.not.integer(won)){return res(400,"won must be an integer")};
@@ -155,7 +172,7 @@ async function addApp(name, longDesc, shortDesc, iconName, developers, imagename
         if(check.not.string(iconspath)){return res(400,"admiiconspathnID must be a intstringeger")};
         
 
-    var result = await AppModels.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, screenshotspath, iconspath,url)
+    var result = await AppModels.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, screenshotspath, iconspath,url, apk, privateKey, publicKey, platform)
     return result;
 
 }
@@ -176,5 +193,6 @@ module.exports = {
    newApp,
    addApp,    
    displayActiveApps,  
-   bottom3,                                                                
+   bottom3,  
+   monthApp,                                                              
 };

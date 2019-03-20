@@ -11,6 +11,7 @@ app.use(cors());
 
 app.use('/icons', express.static(path.join(__dirname, 'public/icons')))
 app.use('/screenshots', express.static(path.join(__dirname, 'public/screenshots')))
+app.use('/apk', express.static(path.join(__dirname, 'public/apk')))
 
 app.use(morgan('dev'));
 app.use(fileUpload());

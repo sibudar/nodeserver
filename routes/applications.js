@@ -98,6 +98,21 @@ router.get("/cat/:id", async function (req, res) {
 
 /* 
 
+display applications according to month
+
+required parameter (dateCreated)
+returns an array of objects
+*/
+router.get("/getAppsByMonth", async function (req, res) {
+
+    var dateCreated = req.body.dateCreated;
+    var result = await AppCtr.monthApp(dateCreated);
+    res.status(result.status).send(result);
+
+})
+
+/* 
+
 display top rated applications according to category
 
 required parameter (categoryID)
@@ -110,6 +125,8 @@ router.get("/won/:id", async function (req, res) {
     res.status(result.status).send(result);
 
 })
+
+
 
 /* 
 
@@ -179,7 +196,7 @@ make an application win
 required parameter(id)
 */
 router.post("/makeAppWin/:id", async function (req, res) {
-   
+
 
 
     var id = (req.params.id);
@@ -251,11 +268,17 @@ router.post("/insert-apps", async function (req, res) {
     categoryID = req.body.categoryID;//categoryID : integer
     adminID = req.body.adminID;//adminID : integer
     url = req.body.url;//application url : string
-    screenshotspath = req.body.screenshotspath ;
+    screenshotspath = req.body.screenshotspath;
     iconspath = req.body.iconspath;
+    apk = req.body.apk;//application apk : string
+    privateKey = req.body.privateKey;//privateKey : string
+    publicKey = req.body.publicKey;//publicKey : string
+    platform = req.body.platform;//platform : string
+
+
     //c = req.files;
 
-    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath);
+    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath, apk, privateKey, publicKey, platform);
 
     res.status(result.status).send(result);
 
