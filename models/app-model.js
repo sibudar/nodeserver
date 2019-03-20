@@ -226,12 +226,12 @@ async function newApp() {
     }
 }
 
-async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,screenshotspath, iconspath) {
+async function addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url,screenshotspath, iconspath, apk, privateKey, publicKey, platform) {
 
 
     try{
 
-        const sql = {sql: "CALL sp_InsertApplications(?,?,?,?,?,?,?,?,?,?,?,?)", values: [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath]}
+        const sql = {sql: "CALL sp_InsertApplications(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", values: [name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath, apk, privateKey, publicKey, platform]}
         await connection.query(sql);
          
   

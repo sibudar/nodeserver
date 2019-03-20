@@ -111,6 +111,8 @@ router.get("/won/:id", async function (req, res) {
 
 })
 
+
+
 /* 
 
 update application information
@@ -253,9 +255,15 @@ router.post("/insert-apps", async function (req, res) {
     url = req.body.url;//application url : string
     screenshotspath = req.body.screenshotspath;
     iconspath = req.body.iconspath;
+    apk = req.body.apk;//application apk : string
+    privateKey = req.body.privateKey;//privateKey : string
+    publicKey = req.body.publicKey;//publicKey : string
+    platform = req.body.platform;//platform : string
+
+
     //c = req.files;
 
-    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath);
+    var result = await AppCtr.addApp(name, longDesc, shortDesc, iconName, developers, imagenames, won, categoryID, adminID, url, screenshotspath, iconspath, apk, privateKey, publicKey, platform);
 
     res.status(result.status).send(result);
 
