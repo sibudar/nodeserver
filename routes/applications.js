@@ -98,6 +98,21 @@ router.get("/cat/:id", async function (req, res) {
 
 /* 
 
+display applications according to month
+
+required parameter (dateCreated)
+returns an array of objects
+*/
+router.get("/getAppsByMonth", async function (req, res) {
+
+    var dateCreated = req.body.dateCreated;
+    var result = await AppCtr.monthApp(dateCreated);
+    res.status(result.status).send(result);
+
+})
+
+/* 
+
 display top rated applications according to category
 
 required parameter (categoryID)

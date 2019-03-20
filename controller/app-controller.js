@@ -32,6 +32,13 @@ async function displayApp(){
 
 }
 
+async function monthApp(dateCreated){
+    var result = await AppModels.monthApp(dateCreated)
+
+    return result;
+
+}
+
 async function bottom3(){
     var result = await AppModels.bottom3()
 
@@ -181,5 +188,6 @@ module.exports = {
    newApp,
    addApp,    
    displayActiveApps,  
-   bottom3,                                                                
+   bottom3,  
+   monthApp,                                                              
 };

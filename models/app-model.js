@@ -39,6 +39,23 @@ async function displayApp() {
     }
 }
 
+//Display  apps according to month
+async function monthApp(dateCreated) {
+
+    try {
+        let sql = { sql: "CALL sp_SameMonthApps(?)",
+                    values: [dateCreated]
+    
+                  }
+        const sqlResult = await connection.query(sql);
+     
+        return res(200,"All applications displayed according to month",sqlResult);
+
+    } catch (err) {
+        return res(400,err);
+
+    }
+}
 //Display Bottom 3 apps
 async function bottom3() {
 
@@ -264,4 +281,5 @@ module.exports = {
     addApp,
     displayActiveApps,
     bottom3,
+    monthApp,
 };
