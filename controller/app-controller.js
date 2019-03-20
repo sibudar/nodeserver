@@ -33,6 +33,11 @@ async function displayApp(){
 }
 
 async function monthApp(dateCreated){
+    
+    if(dateCreated.length==0){return res(404,"date created is required")};
+
+    if(check.not.integer(dateCreated)){return res(406,"date created must be an integer")};
+    
     var result = await AppModels.monthApp(dateCreated)
 
     return result;
