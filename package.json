@@ -5,12 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js DB_NAME:expo_db"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.4",
+    "bcrypt": "3.0.4",
     "body-parser": "^1.18.3",
     "check-types": "^8.0.1",
     "cors": "^2.8.5",

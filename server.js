@@ -7,6 +7,6 @@ const server = http.createServer(app)
 
 
 
-server.listen(3000 , () => {
+server.listen(process.env.PORT ,'0.0.0.0',  () => {
     console.log('server running on 3000' ) 
 })
